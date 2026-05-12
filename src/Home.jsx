@@ -4,10 +4,15 @@ import products from "./products";
 
 import productcategories from "./category";
 import Categorycard from "./categorycard";
+import Navbar from "./navbar";
+import CartSidebar from "./CartSidebar";
 
 function Home() {
   const [cart, setCart] = useState([]);
   console.log(cart);
+  const[selectedCategory, setSelectedCategory]=useState("")
+  const[search ,setSearch]=useState("");
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handlecart = (product) => {
     const exist = cart.find((item) => item.id === product.id);
@@ -47,35 +52,66 @@ function Home() {
     setCart(updated);
   };
 
+  const toogleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
+  const removeItem = (id) => {
+    const updatedcart = cart.filter((item) => item.id !== id);
+    setCart(updatedcart);
+  };
+
+  const totalPrice = cart.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
+
+ const filteredProducts = products.filter((product) =>
+  product.name.toLowerCase().includes(search.toLowerCase())
+);
+
+// const filteredProducts=products.filter((product)=>product.categrory===)
+//    setSelectedCategory(filteredProducts)
+
   return (
     <div>
-      <h1 className="text-3xl font-semibold flex justify-center ">
+      <Navbar toogleCart={toogleCart} cart={cart} search={search} setSearch={setSearch}/>
+
+      <CartSidebar
+        cart={cart}
+        toogleCart={toogleCart}
+        isCartOpen={isCartOpen}
+        onDecrease={handledecrease}
+        onIncrease={handleincrease}
+        removeItem={removeItem}
+        totalPrice={totalPrice}
+      />
+
+    
+      <h1 className="text-3xl font-semibold flex justify-center mt-5 mb-5 ">
         Shop by Category
       </h1>
-      <div className="text-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 ">
+      <div className="text-md flex overflow-x-auto hide-scrollbar gap-3 ml-6 scroll-smooth snap-x">
         {productcategories.map((item) => (
           <Categorycard key={item.id} category={item} />
         ))}
       </div>
-      <h1 className="text-3xl font-semibold flex justify-center mb-4">
+      <h1 className="text-3xl font-semibold flex justify-center mt-6 mb-6">
         All Products
       </h1>
-      <div className="text-md grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 mx-25 bg-white">
-        {products.map((product) => {
-
-       const exist=cart.find((item)=>item.id===product.id);
-         return(
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAddcart={handlecart}
-            onIncrease={handleincrease}
-            onDecrease={handledecrease}
-            exist={exist}
-          />
-         );
-        
-})}
+      <div className="text-md grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 mx-25 bg-white">
+        {filteredProducts.map((product) => {
+          const exist = cart.find((item) => item.id === product.id);
+          return (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddcart={handlecart}
+              onIncrease={handleincrease}
+              onDecrease={handledecrease}
+              exist={exist}
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 const productcategories = [
     {
         id: 101,
-        image: "https://via.placeholder.com/150",
+        image: "/images/sugar.jpg",
         title: "Oil & Ghee",
     },
     {
         id: 102,
-        image: "/",
+        image: "https://via.placeholder.com/150",
         title: "Aata, Flour & Grains"
     },
     {

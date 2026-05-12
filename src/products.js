@@ -5,7 +5,7 @@ const products = [
     name: "Milk",
     price: 50,
     unit: "L",
-    image: "https://via.placeholder.com/1000",
+    image: "https://via.placeholder.com/150",
     category: "essentials"
   },
   {

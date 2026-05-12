@@ -1,3 +1,7 @@
+import { HiShoppingCart } from "react-icons/hi"; 
+import { FaPlus } from "react-icons/fa";
+import { FaMinus } from "react-icons/fa";
+
 function ProductCard({
   product,
   onAddcart,
@@ -7,10 +11,10 @@ function ProductCard({
   exist
 }) {
   return (
-    <div className=" bg-white-100 hover:shadow-lg border border-blue-300 rounded-lg ">
+    <div className=" bg-white-100 hover:shadow-lg border border-slate-200 rounded-lg ">
       <div className="flex flex-col gap-2 rounded-xl">
         <img
-          className="w-full h-50 object-cover rounded "
+          className="w-full h-50 object-contain rounded "
           src={product.image}
         />
         <h2 className="text-md font-medium ml-2 mb-3">{product.name}</h2>
@@ -18,21 +22,21 @@ function ProductCard({
       </div>
 
       <div className="flex justify-between m-2">
-        <p className="pr-10 pl-2 pt-1 pb-1 bg-slate-100 rounded">1 {product.unit}</p>
+        <p className="pl-1 pr-5  py-1 bg-slate-100 rounded">1 {product.unit}</p>
 
         {exist ? (
-          <div className="flex items-center text-lg font-semibold ">
-            <button onClick={() => onDecrease(product.id)} className="bg-orange-500 px-2 border border-blue-200 hover:text-white rounded" >-</button>
-            <span className="px-2 bg-white border border-blue-200">{exist.quantity}</span>
+          <div className="flex items-center gap-2 bg-lime-700 text-white px-2 py-1 rounded-md">
+            <button onClick={() => onDecrease(product.id)} className="cursor-pointer" ><FaMinus/></button>
+            <span className="w-3 text-center font-bold">{exist.quantity}</span>
 
-            <button onClick={() => onIncrease(product.id)} className="bg-orange-500 px-2 border border-blue-200 hover:text-white rounded" >+</button>
+            <button onClick={() => onIncrease(product.id)} className="cursor-pointer" ><FaPlus/></button>
           </div>
         ) : (
           <button
-            className="pl-5 pr-5 pt-1 pb-1 text-red-900 hover:text-white bg-orange-200 hover:bg-orange-500 rounded cursor-pointer"
-            onClick={() => onAddcart(product)}
+            className="flex items-center gap-1 px-4 py-1 text-lime-900 bg-lime-200 hover:bg-lime-800 hover:text-white rounded-md cursor-pointer"
+            onClick={() =>onAddcart(product)}
           >
-           🛒Add 
+           <HiShoppingCart/>Add 
           </button>
         )}
       </div>
