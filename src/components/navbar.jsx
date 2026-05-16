@@ -1,10 +1,15 @@
+import { useContext } from "react";
 import { HiShoppingCart } from "react-icons/hi";
 import { HiOutlineSearch } from "react-icons/hi";
+import { cartcontext } from "../context/cartcontext";
 
-function Navbar({ toogleCart, cart, search, setSearch }) {
+function Navbar({ search, setSearch }) {
+
+const {cart, toggleCart, totalPrice}=useContext(cartcontext);
+
   return (
     <div className="sticky top-0 z-40 bg-white flex justify-between items-center border-b border-slate-200 p-4 shadow-sm">
-      <h1>logo</h1>
+      <h1>Alam kirana</h1>
       <div className="relative w-full max-w-lg">
         <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl" />
 
@@ -17,11 +22,13 @@ function Navbar({ toogleCart, cart, search, setSearch }) {
         />
       </div>
       <div
-        onClick={toogleCart}
+        onClick={toggleCart}
         className="flex flex-col justify-center text-center bg-lime-700 px-5 py-2 rounded-lg cursor-pointer"
       >
         <p className="text-sm font-bold text-white ">{cart.length} item</p>
+        
         <div className="flex items-center justify-center gap-1 text-white text-sm font-bold">
+          {/* <h1 className="text-white text-md">₹{totalPrice}</h1> */}
           <HiShoppingCart />
           <span>View Cart</span>
         </div>

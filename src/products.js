@@ -105,7 +105,61 @@ const products = [
     unit: "kg",
     image: "https://via.placeholder.com/150",
     category: "cleaning"
-  }
+  },
+  // Beverages
+{
+  id: 13,
+  name: "Coca Cola",
+  price: 40,
+  unit: "750ml",
+  image: "https://via.placeholder.com/150",
+  category: "beverages"
+},
+
+{
+  id: 14,
+  name: "Mango Juice",
+  price: 60,
+  unit: "L",
+  image: "https://via.placeholder.com/150",
+  category: "beverages"
+},
+
+// Baby Products
+{
+  id: 15,
+  name: "Baby Diapers",
+  price: 320,
+  unit: "pack",
+  image: "https://via.placeholder.com/150",
+  category: "baby"
+},
+
+{
+  id: 16,
+  name: "Baby Powder",
+  price: 140,
+  unit: "200g",
+  image: "https://via.placeholder.com/150",
+  category: "baby"
+},
+{
+  id: 17,
+  name: "Salt",
+  price: 30,
+  unit: "pack",
+  image: "https://via.placeholder.com/150",
+  category: "sugar"
+},
+
+{
+  id: 18,
+  name: "Sugar",
+  price: 50,
+  unit: "kg",
+  image: "https://via.placeholder.com/150",
+  category: "sugar"
+},
 ];
 
 export default products;

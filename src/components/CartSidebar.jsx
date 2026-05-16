@@ -1,24 +1,22 @@
-function CartSidebar({
-  cart,
-  toogleCart,
-  isCartOpen,
-  onDecrease,
-  onIncrease,
-  removeItem,
-  totalPrice
-}) {
+import { useContext } from "react";
+import { cartcontext } from "../context/cartcontext";
+
+function CartSidebar() {
+  
+  const {cart, setCart, handleincrease, handledecrease, toggleCart, isCartOpen , removeItem, totalPrice}=useContext(cartcontext);
+
   if (!isCartOpen) {
     return null;
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
+    <div className="fixed inset-0 bg-black/70 z-50 flex justify-end">
       <div className="w-100 h-screen bg-slate-50 flex flex-col">
         <div className="bg-white p-6 border-b border-slate-200 flex justify-between items-center shadow-sm">
           <h2 className="text-2xl font-bold text-gray-800">My Cart</h2>
 
           <button
-            onClick={toogleCart}
+            onClick={toggleCart}
             className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
           >
             ✕
@@ -58,7 +56,7 @@ function CartSidebar({
                         {item.name}
                       </h2>
 
-                      <p className="text-sm text-gray-500">1{item.unit}</p>
+                      <h3 className="text-sm text-gray-600">1{item.unit}</h3>
 
                       <h4 className="font-bold text-black mt-1">
                         ₹{item.price}
@@ -68,7 +66,7 @@ function CartSidebar({
 
                   <div className="flex items-center gap-3 bg-lime-700 text-white px-3 py-1 rounded-lg absolute bottom-2 right-2">
                     <button
-                      onClick={() => onDecrease(item.id)}
+                      onClick={() => handledecrease(item.id)}
                       className="text-lg font-bold cursor-pointer"
                     >
                       -
@@ -77,13 +75,15 @@ function CartSidebar({
                     <span className="w-3 text-center font-semibold">{item.quantity}</span>
 
                     <button
-                      onClick={() => onIncrease(item.id)}
+                      onClick={() => handleincrease(item.id)}
                       className="text-lg font-bold cursor-pointer"
                     >
                       +
                     </button>
                   </div>
+                  <div>
                    <button onClick={()=>removeItem(item.id)} className="absolute top-2 right-4 cursor-pointer">✕</button> 
+                  </div>
                 </div>
               ))}
              
