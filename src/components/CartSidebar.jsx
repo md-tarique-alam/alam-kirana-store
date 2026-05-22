@@ -3,7 +3,7 @@ import { cartcontext } from "../context/cartcontext";
 
 function CartSidebar() {
   
-  const {cart, setCart, handleincrease, handledecrease, toggleCart, isCartOpen , removeItem, totalPrice}=useContext(cartcontext);
+  const { cart, handleincrease, handledecrease, toggleCart, isCartOpen , removeItem, totalPrice }=useContext(cartcontext);
 
   if (!isCartOpen) {
     return null;
@@ -44,7 +44,7 @@ function CartSidebar() {
                  
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.image}
+                      src={item.images}
                       alt={item.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
@@ -53,7 +53,7 @@ function CartSidebar() {
 
                     <div>
                       <h2 className="font-semibold text-md text-gray-800">
-                        {item.name}
+                        {item.title}
                       </h2>
 
                       <h3 className="text-sm text-gray-600">1{item.unit}</h3>

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Navbar from "./components/navbar";
 import CartSidebar from "./components/CartSidebar";
 import ProductPage from "./pages/productpage";
-
+import Authpage from "./pages/Authpage";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -20,6 +20,7 @@ function App() {
         <Route path="/" element={<Home search={search} />} />
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/product/:id" element={<ProductPage/>}/>
+        <Route path="/login" element={<Authpage/>}/>
       </Routes>
     </div>
   );
