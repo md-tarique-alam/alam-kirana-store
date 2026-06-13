@@ -38,7 +38,7 @@ function ProductCard({ product }) {
           </div>
         ) : (
           <button
-            className="flex items-center gap-1 px-4 py-1 text-lime-900 bg-lime-200 hover:bg-lime-800 hover:text-white w-20 h-9 rounded-md border border-lime-400 cursor-pointer"
+            className="flex items-center gap-1 px-4 py-1 text-lime-900 bg-lime-200 hover:bg-lime-800 hover:text-white w-20 h-9 rounded-md border border-lime-400 cursor-pointer transition"
             onClick={() =>handleaddcart(product)}
           >
            <HiShoppingCart/>Add 

@@ -1,16 +1,40 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { authcontext } from "../context/Authcontext";
+import { useNavigate } from "react-router-dom";
 
 function Authpage() {
   const [formdata, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const [error, setError] = useState(null);
+  const { login } = useContext(authcontext);
+  const navigate = useNavigate();
 
+  async function handleSubmit(e) {
+    e.preventDefault();
     console.log(formdata);
+    try {
+      const res = await axios.post(
+        "https://dummyjson.com/auth/login",
+        formdata
+      );
+      login(res.data);
+      navigate("/");
+      console.log(res.data);
+    } catch (error) {
+      setError("something went wrong");
+    }
   }
+
+  if (error) {
+    return <h2>{error}</h2>;
+  }
+
+  //   username: emilys
+  // password: emilyspass
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-slate-100 px-4">
@@ -19,9 +43,7 @@ function Authpage() {
         className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg"
       >
         <div className="flex flex-col items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
-            Alam Kirana
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-800">Alam Kirana</h1>
 
           <p className="text-gray-500 mt-2 text-sm">
             Login to continue shopping
@@ -36,11 +58,11 @@ function Authpage() {
 
             <input
               type="text"
-              value={formdata.email}
+              value={formdata.username}
               onChange={(e) =>
                 setFormData({
                   ...formdata,
-                  email: e.target.value,
+                  username: e.target.value,
                 })
               }
               placeholder="Enter your email or phone"

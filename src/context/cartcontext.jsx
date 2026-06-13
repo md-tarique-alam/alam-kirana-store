@@ -57,9 +57,13 @@ function CartProvider({ children }) {
     return acc + item.price * item.quantity;
   }, 0);
 
+  const ClearCart=()=>{
+  setCart([]);
+  }
+
   return (
     <div>
-      <cartcontext.Provider value={{ cart, setCart, handleaddcart, handleincrease, handledecrease, toggleCart, isCartOpen , removeItem, totalPrice }}>
+      <cartcontext.Provider value={{ cart, setCart, handleaddcart, handleincrease, handledecrease, toggleCart, isCartOpen , removeItem, totalPrice, ClearCart }}>
         {children}
       </cartcontext.Provider>
     </div>
