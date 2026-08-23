@@ -2,12 +2,14 @@ import React, { useContext, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import { productscontext } from "./context/productscontext";
 import Categorycard from "./components/categorycard";
+import { useOutletContext } from "react-router-dom";
 
 
 
-function Home({ search }) {
+function Home() {
   
-  const {products, categories}=useContext(productscontext)
+  const {products, categories}=useContext(productscontext);
+  const {search}=useOutletContext();
 
   const filteredProducts = products.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase()),

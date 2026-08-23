@@ -135,7 +135,8 @@ function CartSidebar() {
           ) : (
             <button
               onClick={() => {
-                toggleCart(); navigate("/login");
+                toggleCart(); 
+                navigate("/login");
               }}
               className="w-full bg-lime-800 hover:bg-lime-900 text-white py-3 rounded-xl text-lg font-semibold cursor-pointer"
             >

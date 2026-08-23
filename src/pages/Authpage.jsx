@@ -1,36 +1,49 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { authcontext } from "../context/Authcontext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Authpage() {
   const [formdata, setFormData] = useState({
-    username: "",
+    identifiers : "",
     password: "",
   });
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState();
   const { login } = useContext(authcontext);
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    console.log(formdata);
+  async function loginData() {
     try {
       const res = await axios.post(
-        "https://dummyjson.com/auth/login",
-        formdata
+        "http://localhost:5000/users/login",
+        formdata,
+        {withCredentials:true}
       );
-      login(res.data);
-      navigate("/");
-      console.log(res.data);
+      login(res.data.user);
+      
+      if(res.data.user.role==="admin"){
+        setTimeout(() => {
+        navigate("/admin");
+      }, 1000);
+      }
+      else{
+        setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      }
+    
     } catch (error) {
-      setError("something went wrong");
+      setError("Invalid email/mobile or password");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
     }
   }
 
-  if (error) {
-    return <h2>{error}</h2>;
+  function handleSubmit(e) {
+    e.preventDefault();
+    loginData();
   }
 
   //   username: emilys
@@ -38,6 +51,7 @@ function Authpage() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-slate-100 px-4">
+      {error && <h1>{error}</h1>}
       <form
         onSubmit={handleSubmit}
         className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg"
@@ -58,11 +72,11 @@ function Authpage() {
 
             <input
               type="text"
-              value={formdata.username}
+              value={formdata.identifiers}
               onChange={(e) =>
                 setFormData({
                   ...formdata,
-                  username: e.target.value,
+                  identifiers: e.target.value,
                 })
               }
               placeholder="Enter your email or phone"
@@ -100,7 +114,7 @@ function Authpage() {
         <p className="text-sm text-center text-gray-500 mt-6">
           Don’t have an account?
           <span className="text-lime-700 font-medium cursor-pointer ml-1">
-            Sign up
+            <Link to={"/signup"}>Sign up</Link>
           </span>
         </p>
       </form>

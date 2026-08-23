@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderPlaced from "./orderplaced";
 import { cartcontext } from "../context/cartcontext";
+import axios from "axios";
 
 function Checkout() {
   const [formData, setFormData] = useState({
@@ -12,29 +13,48 @@ function Checkout() {
     landmark: "",
     mobilenumber: "",
   });
+  const [error, setError] = useState();
+
   const { cart, totalPrice, ClearCart } = useContext(cartcontext);
   const navigate = useNavigate();
+
+  const items = cart.map((item) => ({
+    productId: item._id,
+    quantity: item.quantity
+  }));
+
+  async function placeorder() {
+    try {
+      await axios.post(
+        "http://localhost:5000/orders",
+        { items, address: formData },
+        { withCredentials: true },
+      );
+      ClearCart();
+      navigate("/orderplaced");
+    } catch (error) {
+      setError(error.response?.data?.message || "Something went wrong");
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-    !formData.name ||
-    !formData.address ||
-    !formData.city ||
-    !formData.landmark ||
-    !formData.pincode ||
-    !formData.mobilenumber
-  ) {
-    alert("Please fill all fields");
-    return;
-  }
+      !formData.name ||
+      !formData.address ||
+      !formData.city ||
+      !formData.landmark ||
+      !formData.pincode ||
+      !formData.mobilenumber
+    ) {
+      alert("Please fill all fields");
+      return;
+    }
     if (formData.mobilenumber.length !== 10) {
       alert("Please enter a valid 10 digit mobile number");
       return;
     }
-    ClearCart();
-
-    navigate("/orderplaced");
+    placeorder();
   };
 
   return (

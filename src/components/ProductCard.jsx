@@ -25,7 +25,7 @@ function ProductCard({ product }) {
       </Link>
 
       <div className="flex justify-between m-2">
-        {/* {product.unit} */}
+        {product.unit}
         <p className="pl-1 pr-9 py-1 bg-slate-100 rounded text-gray-800 text-sm font-small ">1 "pc"</p>
         
 
