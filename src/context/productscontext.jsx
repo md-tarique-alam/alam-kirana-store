@@ -1,6 +1,5 @@
-import { createContext } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 
 export const productscontext = createContext();
 
@@ -15,11 +14,10 @@ function ProductsProvider({ children }) {
 
   async function getData() {
     try {
-      const response = await axios.get("https://dummyjson.com/products");
-      setProducts(response.data.products);
-      console.log(response.data);
-    } catch {
-      setError("something went wrong");
+      const res = await axios.get("http://localhost:5000/products");
+      setProducts(res.data);
+    } catch(error){
+      setError(error.response?.data?.message || "something went wrong");
     } finally {
       setLoading(false);
     }

@@ -31,16 +31,20 @@ const order = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["placed",
-            "confirmed",
-            "out-for-delivery",
-            "delivered",
-            "cancelled"],
-        default: "placed"
+        enum: [
+            "Placed",
+            "Confirmed",
+            "Processing",
+            "Out-for-Delivery",
+            "Delivered",
+            "Cancelled"
+        ],
+        default: "Placed"
     },
+
     paymentmethod: {
         type: String,
-        enum: ["Cash-on-delivery", "upi-on-delivery"],
+        enum: ["Cash-on-delivery", "Online-Payment"],
         default: "Cash-on-delivery"
     }
 

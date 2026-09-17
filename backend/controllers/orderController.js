@@ -4,7 +4,7 @@ const Product = require("../models/product")
 exports.getmyorders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user.userId })
-    res.status(200).json({ orders })
+    res.status(200).json( orders )
   }
   catch (error) {
     res.status(500).json({
@@ -15,7 +15,7 @@ exports.getmyorders = async (req, res) => {
 
 exports.allorders = async (req, res) => {
   try {
-    const allorders = await Order.find()
+    const allorders = await Order.find().populate("user", "name email mobile").sort({ createdAt: -1 });
     res.status(200).json({ allorders })
   }
   catch (error) {
@@ -126,14 +126,14 @@ exports.orderstatus=async(req,res)=>{
   try{
   const {status}=req.body;
 
-  const allowedStatus=["placed","confirmed","out-for-delivery","delivered"];
+  const allowedStatus=["Placed", "Confirmed", "Processing", "Out-for-Delivery", "Delivered", "Cancelled"];
 
   if(!allowedStatus.includes(status)){
     return res.status(400).json({
       message: "Invalid order status"
     });
   }
-    const order=await Order.findByIdAndUpdate(req.params.id,{status},{new:true});
+    const order=await Order.findByIdAndUpdate(req.params.id,{status},{new:true, runValidators:true });
 
     if (!order) {
       return res.status(404).json({
@@ -142,7 +142,8 @@ exports.orderstatus=async(req,res)=>{
     }
 
    return res.status(200).json({
-      message: "Status updated successfully"
+      message: "Status updated successfully",
+      order
     });
   }
   catch(error){

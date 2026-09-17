@@ -15,6 +15,9 @@ import AllProducts from "./Admin/Products";
 import CustomerLayot from "./CustomerLayot";
 import AdminLayout from "./Admin/AdminLayout";
 import Signup from "./pages/Signup";
+import UserOrders from "./Admin/Orders";
+import Users from "./Admin/Users";
+import AdminDashboard from "./Admin/AdminDashboard";
 
 function App() {
 
@@ -64,9 +67,12 @@ function App() {
         </Route>
 
         <Route path="/admin" element={ <AdminLayout/> }>
-        <Route path="/admin/addproduct" element={<AdminData/>} />
-        <Route path="/admin/updateproduct/:id" element={<Updatepage/>} />
-        <Route path="/admin/products" element={<AllProducts/> }/>
+          <Route index element={<AdminDashboard />} />
+        <Route path="addproduct" element={<AdminData/>} />
+        <Route path="products" element={<AllProducts/> }/>
+        <Route path="products/:id/edit" element={<Updatepage/>} />
+        <Route path="orders" element={ <UserOrders/> } />
+        <Route path="users" element={ <Users/> }/>
         </Route>
       </Routes>
 

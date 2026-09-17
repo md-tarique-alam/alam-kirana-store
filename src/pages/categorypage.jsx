@@ -9,8 +9,7 @@ function CategoryPage() {
   const {products} =useContext(productscontext)
 
   const filteredcategory = products.filter(
-    (item) => item.category === categoryName,
-  );
+    (product) => product.category === categoryName);
 
   return (
     <div>
@@ -20,7 +19,7 @@ function CategoryPage() {
       </div>
       <div className="text-md grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 mx-25 bg-white mt-4">
         {filteredcategory.map((product) => {
-          return <ProductCard key={product.id} product={product} />;
+          return <ProductCard key={product._id} product={product} />;
         })}
         
       </div>

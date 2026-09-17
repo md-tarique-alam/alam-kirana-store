@@ -5,7 +5,8 @@ export const authcontext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [error,setError] = useState()
+  const [error,setError] = useState("")
+  const [authLoading, setAuthLoading] = useState(true);
  const isLoggedIn=!!user;
 
 function login(userdata){
@@ -19,10 +20,13 @@ useEffect(()=>{
 async function getUser(){
    try{
     const res=await axios.get("http://localhost:5000/users/me" , {withCredentials:true})
-    setUser(res.data)
+    setUser(res.data.user)
    }
    catch(error){
-    setError(error.response?.data?.message)
+    setError(error.response?.data?.message || "something went wrong")
+   }
+   finally{
+    setAuthLoading(false);
    }
 }
 
@@ -38,7 +42,7 @@ async function logout(){
   
   return (
     <div>
-      <authcontext.Provider value={{ login, logout, user, isLoggedIn }}>
+      <authcontext.Provider value={{ login, logout, user, isLoggedIn, error, authLoading }}>
         {children}
       </authcontext.Provider>
     </div>

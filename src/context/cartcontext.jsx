@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useState } from "react";
-import ProductCard from "../components/ProductCard";
+// import ProductCard from "../components/ProductCard";
 export const cartcontext = createContext();
 
 function CartProvider({ children }) {
@@ -9,11 +9,11 @@ function CartProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleaddcart = (product) => {
-    const exist = cart.find((item) => item.id === product.id);
+    const exist = cart.find((item) => item._id === product._id);
 
     if (exist) {
       const updated = cart.map((item) =>
-        item.id === product.id
+        item._id === product._id
           ? { ...item, quantity: item.quantity + 1 }
           : item,
       );
@@ -24,7 +24,7 @@ function CartProvider({ children }) {
   };
   const handleincrease = (id) => {
     const updated = cart.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      item._id === id ? { ...item, quantity: item.quantity + 1 } : item,
     );
     setCart(updated);
   };
@@ -32,7 +32,7 @@ function CartProvider({ children }) {
   const handledecrease = (id) => {
     const updated = cart
       .map((item) => {
-        if (item.id === id) {
+        if (item._id === id) {
           if (item.quantity > 1) {
             return { ...item, quantity: item.quantity - 1 };
           }
@@ -49,7 +49,7 @@ function CartProvider({ children }) {
   };
 
   const removeItem = (id) => {
-    const updatedcart = cart.filter((item) => item.id !== id);
+    const updatedcart = cart.filter((item) => item._id !== id);
     setCart(updatedcart);
   };
 

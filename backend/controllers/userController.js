@@ -93,12 +93,64 @@ exports.getUser=async (req,res)=>{
     return res.status(404).json({
         message: "user not found"
     });
-}F
-     return res.status(200).json(user)
+}
+     return res.status(200).json({user})
     }
     catch(error){
-    res.status(500).json({
-        message: "something went wrong"
+    return res.status(500).json({
+        message: error.message
     })
     }
+}
+
+exports.findUser=async (req,res)=>{
+    try{
+      const user=await User.find().select("name email mobile");
+      if (!user) {
+    return res.status(404).json({
+        message: "user not found"
+    });
+}
+     return res.status(200).json({user})
+    }
+    catch(error){
+    return res.status(500).json({
+        message: error.message
+    })
+    }
+}
+
+
+
+exports.userProfile=async(req,res)=>{
+    try{
+    const user=await User.findById(req.user.userId).select("name email mobile");
+    if(!user){
+       return res.status(404).json({
+            message: "User not found"
+        });
+    }
+    res.status(200).json({user});
+    }
+    catch(error){
+     return  res.status(500).json({
+        message: error.message
+    });
+    }
+}
+
+exports.updateProfile=async(req,res)=>{
+    try{
+    const { name, email, mobile } = req.body;
+    const user=await User.findByIdAndUpdate(req.user.userId, {  name, email, mobile }, {new:true, runValidators:true})
+    res.status(200).json({
+        message: "Profile updated successfully",
+        user
+    });
+    }
+    catch(error){
+       return res.status(500).json({
+        message: error.message 
+    });
+   }
 }

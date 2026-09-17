@@ -6,7 +6,9 @@ const AdminLayout = () => {
   return (
     <div>
         <AdminSidebar/>
+        <main>
         <Outlet/>
+        </main>
     </div>
   )
 }

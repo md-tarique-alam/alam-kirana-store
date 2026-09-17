@@ -10,6 +10,8 @@ const userRoutes = require("./routes/userRoutes");
 
 const orderRoutes=require("./routes/orderRoutes")
 
+const addressRoutes=require("./routes/addressRoutes")
+
 const express = require("express");
 
 const mongoose = require("mongoose");
@@ -44,6 +46,8 @@ app.use("/products", productRoutes)
 app.use("/users", userRoutes)
 
 app.use("/orders", orderRoutes)
+
+app.use("/address" , addressRoutes)
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");

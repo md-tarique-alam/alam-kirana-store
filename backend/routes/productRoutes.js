@@ -12,7 +12,7 @@ router.post("/", authMiddleware, adminMiddleware, addProduct);
 
 router.delete("/:id", authMiddleware, adminMiddleware, deleteProduct);
 
-router.put("/:id",authMiddleware, adminMiddleware, updateProduct);
+router.put("/:id", authMiddleware, adminMiddleware, updateProduct);
 
 router.get("/:id", findProduct);
 

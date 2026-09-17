@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import { productscontext } from "./context/productscontext";
-import Categorycard from "./components/categorycard";
+import CategoryCard from "./components/categorycard";
 import { useOutletContext } from "react-router-dom";
 
 
@@ -12,30 +12,58 @@ function Home() {
   const {search}=useOutletContext();
 
   const filteredProducts = products.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase()),
+    item.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
-    <div>
-      <h1 className="text-3xl font-semibold flex justify-center mt-5 mb-5 ">
-        Shop by Category
-      </h1>
-      <div className="text-md flex overflow-x-auto hide-scrollbar gap-3 ml-6 scroll-smooth snap-x">
-        
-        {categories.map((category) => (
-          <Categorycard key={category} category={category} />
-        ))}
-      </div>
-      <h1 className="text-3xl font-semibold flex justify-center mt-6 mb-6">
-        All Products
-      </h1>
+ <div className="min-h-screen bg-slate-100 py-6">
 
-      <div className="text-md grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 mx-25 bg-white">
-        {filteredProducts.map((product) => {
-          return <ProductCard key={product.id} product={product} />;
-        })}
-      </div>
+
+  <section className="max-w-7xl mx-auto px-4">
+
+    <h1 className="text-2xl sm:text-3xl font-semibold
+                   text-center text-slate-800 mb-6">
+      Shop by Category
+    </h1>
+
+    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6
+                    gap-3 sm:gap-4 items-start">
+
+      {categories.map((category) => (
+        <CategoryCard
+          key={category}
+          category={category}
+        />
+      ))}
+
     </div>
+
+  </section>
+
+
+  <section className="max-w-7xl mx-auto px-4 mt-10">
+
+    <h1 className="text-2xl sm:text-3xl font-semibold
+                   text-center text-slate-800 mb-6">
+      All Products
+    </h1>
+
+    <div className="grid grid-cols-2 sm:grid-cols-3
+                    md:grid-cols-4 lg:grid-cols-6
+                    gap-3 sm:gap-4">
+
+      {filteredProducts.map((product) => (
+        <ProductCard
+          key={product._id}
+          product={product}
+        />
+      ))}
+
+    </div>
+
+  </section>
+
+</div>
   );
 }
 

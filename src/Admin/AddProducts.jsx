@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { useState } from "react";
 
 function AdminData() {
@@ -12,17 +11,18 @@ function AdminData() {
     description: "",
     stock: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
   async function addProduct() {
-    console.log("AXIOS STARTED");
-
-     setLoading(true);
+    setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/products", formdata);
+      const res = await axios.post("http://localhost:5000/products", formdata, {
+        withCredentials: true
+      });
 
       setSuccess("Product Added Successfully ✅");
 
@@ -38,106 +38,285 @@ function AdminData() {
 
       setTimeout(() => {
         setSuccess("");
-      }, 3000);
-
-      console.log(res.data);
+      }, 5000);
     } catch (error) {
       setSuccess("");
       setError(error.response?.data?.message || "Something went wrong");
-      
-      setTimeout(() => {
-      setError("");
-      }, 3000);
 
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handlesubmit = (e) => {
-    console.log("form submitted");
-    console.log("BUTTON CLICKED");
     e.preventDefault();
     addProduct();
   };
 
   return (
-    <div>
-      <h2>Add Products</h2>
-      {success && <h1>{success}</h1>}
-      {error && <h1>{error}</h1>}
-      <form onSubmit={handlesubmit}>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          value={formdata.name}
-          onChange={(e) => setFormdata({ ...formdata, name: e.target.value })}
-          placeholder="Product name"
-        />
+    <div className="min-h-screen bg-slate-100 px-4 py-8 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-6">
+          <p className="text-sm font-medium text-lime-700">Admin Dashboard</p>
 
-        <label htmlFor="price">Price</label>
-        <input
-          id="price"
-          type="text"
-          value={formdata.price}
-          onChange={(e) => setFormdata({ ...formdata, price: e.target.value })}
-          placeholder="price"
-        />
+          <h1 className="mt-1 text-3xl font-semibold text-slate-900 sm:text-4xl">
+            Add Product
+          </h1>
 
-        <label htmlFor="name">Unit</label>
-        <input
-          id="unit"
-          type="number"
-          value={formdata.unit}
-          onChange={(e) => setFormdata({ ...formdata, unit: e.target.value })}
-          placeholder="unit"
-        />
+          <p className="mt-2 text-sm text-slate-500">
+            Add a new product to your Alam Kirana Store inventory.
+          </p>
+        </div>
 
-        <label htmlFor="category">Category</label>
-        <input
-          id="category"
-          type="text"
-          value={formdata.category}
-          onChange={(e) =>
-            setFormdata({ ...formdata, category: e.target.value })
-          }
-          placeholder="category"
-        />
+        {success && (
+          <div className="mb-5 rounded-xl border border-lime-200 bg-lime-50 px-4 py-3 text-sm font-medium text-lime-800">
+            {success}
+          </div>
+        )}
 
-        <label htmlFor="image">Image</label>
-        <input
-          id="image"
-          type="text"
-          value={formdata.image}
-          onChange={(e) => setFormdata({ ...formdata, image: e.target.value })}
-          placeholder="image"
-        />
+        {error && (
+          <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+            {error}
+          </div>
+        )}
 
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          type="text"
-          row={4}
-          value={formdata.description}
-          onChange={(e) =>
-            setFormdata({ ...formdata, description: e.target.value })
-          }
-          placeholder="description"
-        />
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <form onSubmit={handlesubmit} className="space-y-6">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">
+                Product Information
+              </h2>
 
-        <label htmlFor="stock">Stock</label>
-        <input
-          id="stock"
-          type="number"
-          value={formdata.stock}
-          onChange={(e) => setFormdata({ ...formdata, stock: e.target.value })}
-          placeholder="stock"
-        />
+              <p className="mt-1 text-sm text-slate-500">
+                Enter the basic details of your product.
+              </p>
+            </div>
 
-        <button type="submit">{loading ? "saving..."  : "Save Product"}</button>
-      </form>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="mb-2 block text-sm font-medium text-slate-700"
+                >
+                  Product Name
+                </label>
+
+                <input
+                  id="name"
+                  type="text"
+                  value={formdata.name}
+                  onChange={(e) =>
+                    setFormdata({
+                      ...formdata,
+                      name: e.target.value,
+                    })
+                  }
+                  placeholder="e.g. Fortune Sunflower Oil"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="category"
+                  className="mb-2 block text-sm font-medium text-slate-700"
+                >
+                  Category
+                </label>
+
+                <select
+                id="category"
+                  value={formdata.category}
+                  onChange={(e) =>
+                    setFormdata({
+                      ...formdata,
+                      category: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select category</option>
+                  <option value="Oil & Ghee">Oil & Ghee</option>
+                  <option value="Daily Essentials">Daily Essentials</option>
+                  <option value="Wheat & Pulses">Wheat & Pulses</option>
+                  <option value="Dry Fruits">Dry Fruits</option>
+                  <option value="Detergents">Detergents</option>
+                  <option value="Sugar & Salt">Sugar & Salt</option>
+                  <option value="Chips & Snacks">Chips & Snacks</option>
+                  <option value="Tea, Coffee & Beverages">
+                    Tea, Coffee & Beverages
+                  </option>
+                  <option value="Spices & Masalas">Spices & Masalas</option>
+                  <option value="Cleaning Essentials">
+                    Cleaning Essentials
+                  </option>
+                  <option value="Personal Care">Personal Care</option>
+                  <option value="Baby Care">Baby Care</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+              <div>
+                <label
+                  htmlFor="price"
+                  className="mb-2 block text-sm font-medium text-slate-700"
+                >
+                  Price
+                </label>
+
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium text-slate-500">
+                    ₹
+                  </span>
+
+                  <input
+                    id="price"
+                    type="number"
+                    value={formdata.price}
+                    onChange={(e) =>
+                      setFormdata({
+                        ...formdata,
+                        price: e.target.value,
+                      })
+                    }
+                    placeholder="0"
+                    className="w-full rounded-xl border border-slate-300 bg-white py-3 pl-9 pr-4 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="unit"
+                  className="mb-2 block text-sm font-medium text-slate-700"
+                >
+                  Unit
+                </label>
+
+                <input
+                  id="unit"
+                  type="number"
+                  value={formdata.unit}
+                  onChange={(e) =>
+                    setFormdata({
+                      ...formdata,
+                      unit: e.target.value,
+                    })
+                  }
+                  placeholder="e.g. 1"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="stock"
+                  className="mb-2 block text-sm font-medium text-slate-700"
+                >
+                  Stock
+                </label>
+
+                <input
+                  id="stock"
+                  type="number"
+                  value={formdata.stock}
+                  onChange={(e) =>
+                    setFormdata({
+                      ...formdata,
+                      stock: e.target.value,
+                    })
+                  }
+                  placeholder="Available quantity"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="image"
+                className="mb-2 block text-sm font-medium text-slate-700"
+              >
+                Product Image
+              </label>
+
+              <input
+                id="image"
+                type="text"
+                value={formdata.image}
+                onChange={(e) =>
+                  setFormdata({
+                    ...formdata,
+                    image: e.target.value,
+                  })
+                }
+                placeholder="Paste image URL"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+              />
+
+              <p className="mt-1.5 text-xs text-slate-400">
+                You can replace this with Cloudinary upload later.
+              </p>
+            </div>
+
+            <div>
+              <label
+                htmlFor="description"
+                className="mb-2 block text-sm font-medium text-slate-700"
+              >
+                Description
+              </label>
+
+              <textarea
+                id="description"
+                rows="5"
+                value={formdata.description}
+                onChange={(e) =>
+                  setFormdata({
+                    ...formdata,
+                    description: e.target.value,
+                  })
+                }
+                placeholder="Write a short description about the product..."
+                className="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+              />
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center sm:justify-end">
+              <button
+                type="button"
+                onClick={() =>
+                  setFormdata({
+                    name: "",
+                    price: "",
+                    unit: "",
+                    category: "",
+                    image: "",
+                    description: "",
+                    stock: "",
+                  })
+                }
+                className="w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 sm:w-auto"
+              >
+                Clear
+              </button>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-xl bg-lime-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-lime-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              >
+                {loading ? "Saving..." : "Save Product"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
+
 export default AdminData;

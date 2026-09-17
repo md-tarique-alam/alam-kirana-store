@@ -46,8 +46,6 @@ function Authpage() {
     loginData();
   }
 
-  //   username: emilys
-  // password: emilyspass
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-slate-100 px-4">
