@@ -1,16 +1,17 @@
-import React from 'react'
-import AdminSidebar from './AdminSidebar'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import AdminSidebar from "./AdminSidebar";
 
 const AdminLayout = () => {
   return (
-    <div>
-        <AdminSidebar/>
-        <main>
-        <Outlet/>
-        </main>
-    </div>
-  )
-}
+    <div className="min-h-screen bg-slate-50">
+      <AdminSidebar />
 
-export default AdminLayout
+      <main className="min-h-screen lg:ml-64">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
+
+export default AdminLayout;

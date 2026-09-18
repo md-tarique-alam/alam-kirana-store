@@ -1,5 +1,7 @@
 const Product = require("../models/product");
 
+const cloudinary = require("../config/cloudinary");
+
 exports.getProduct = async (req, res) => {
     try {
         const products = await Product.find();
@@ -12,9 +14,41 @@ exports.getProduct = async (req, res) => {
     }
 }
 
+function uploadToCloudinary(buffer) {
+    return new Promise((resolve, reject) => {
+
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder: "alam-kirana-products",
+            },
+            (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            }
+        );
+
+        stream.end(buffer);
+    });
+}
+
 exports.addProduct = async (req, res) => {
     try {
-        const product = await Product.create(req.body);
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Product image is required",
+            });
+        }
+
+        const result = await uploadToCloudinary(req.file.buffer);
+
+        const product = await Product.create({
+            ...req.body,
+            image: result.secure_url
+        });
+
         res.json(product);
     }
     catch (error) {

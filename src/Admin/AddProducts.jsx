@@ -7,10 +7,11 @@ function AdminData() {
     price: "",
     unit: "",
     category: "",
-    image: "",
     description: "",
     stock: "",
   });
+
+  const [image, setImage] = useState(null);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,8 +21,16 @@ function AdminData() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/products", formdata, {
-        withCredentials: true
+      const data = new FormData();
+      data.append("name", formdata.name);
+      data.append("price", formdata.price);
+      data.append("unit", formdata.unit);
+      data.append("category", formdata.category);
+      data.append("description", formdata.description);
+      data.append("stock", formdata.stock);
+      data.append("image", image);
+      const res = await axios.post("http://localhost:5000/products", data, {
+        withCredentials: true,
       });
 
       setSuccess("Product Added Successfully ✅");
@@ -38,7 +47,7 @@ function AdminData() {
 
       setTimeout(() => {
         setSuccess("");
-      }, 5000);
+      }, 8000);
     } catch (error) {
       setSuccess("");
       setError(error.response?.data?.message || "Something went wrong");
@@ -57,7 +66,7 @@ function AdminData() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 px-4 py-8 sm:px-6 lg:px-10">
+    <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-4xl">
         <div className="mb-6">
           <p className="text-sm font-medium text-lime-700">Admin Dashboard</p>
@@ -128,7 +137,7 @@ function AdminData() {
                 </label>
 
                 <select
-                id="category"
+                  id="category"
                   value={formdata.category}
                   onChange={(e) =>
                     setFormdata({
@@ -236,30 +245,38 @@ function AdminData() {
             </div>
 
             <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Product Image
+              </label>
+
               <label
                 htmlFor="image"
-                className="mb-2 block text-sm font-medium text-slate-700"
+                className="flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-white px-4 py-5 text-center transition hover:border-lime-500 hover:bg-lime-50/30"
               >
-                Product Image
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-lime-50 text-2xl">
+                  📷
+                </div>
+
+                <p className="text-sm font-semibold text-slate-700">
+                  Click to upload product image
+                </p>
+
+                <p className="mt-1 text-xs text-slate-500">JPG, PNG or WEBP</p>
+
+                {image && (
+                  <p className="mt-3 text-xs font-medium text-lime-600">
+                    {image.name}
+                  </p>
+                )}
               </label>
 
               <input
                 id="image"
-                type="text"
-                value={formdata.image}
-                onChange={(e) =>
-                  setFormdata({
-                    ...formdata,
-                    image: e.target.value,
-                  })
-                }
-                placeholder="Paste image URL"
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-100"
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+                className="hidden"
               />
-
-              <p className="mt-1.5 text-xs text-slate-400">
-                You can replace this with Cloudinary upload later.
-              </p>
             </div>
 
             <div>
