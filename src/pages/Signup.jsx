@@ -15,6 +15,9 @@ const Signup = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   async function postSignup() {
@@ -31,7 +34,10 @@ const Signup = () => {
       setError("");
       setSuccess("");
 
-      await axios.post("http://localhost:5000/users/signup", userData);
+      await axios.post(
+        "http://localhost:5000/users/signup",
+        userData
+      );
 
       setSuccess("Congratulations! You've successfully registered.");
 
@@ -49,7 +55,9 @@ const Signup = () => {
     } catch (error) {
       setSuccess("");
 
-      setError(error.response?.data?.message || "Something went wrong");
+      setError(
+        error.response?.data?.message || "Something went wrong"
+      );
 
       setTimeout(() => {
         setError("");
@@ -97,8 +105,10 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-slate-100 px-4 py-8 sm:py-12 flex items-center justify-center">
       <div className="w-full max-w-md">
+
+        
         <div className="text-center mb-7">
-          <div className="inline-flex items-center justify-center mx-auto mb-4 px-5 py-2.5 rounded-full bg-lime-100 border border-lime-200">
+          <div className="inline-flex items-center justify-center mb-4 px-5 py-2 rounded-full bg-lime-100 border border-lime-200 shadow-sm">
             <span className="text-xl sm:text-2xl font-bold text-lime-700">
               Alam Kirana
             </span>
@@ -109,24 +119,27 @@ const Signup = () => {
           </h1>
 
           <p className="text-sm text-slate-500 mt-2">
-            Sign up to start shopping at Alam Kirana Store
+            Create your account and start shopping with us
           </p>
         </div>
 
+       
         {error && (
-          <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-600">
+          <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-600 shadow-sm">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-5 px-4 py-3 rounded-xl bg-lime-50 border border-lime-200 text-sm text-lime-700">
+          <div className="mb-5 px-4 py-3 rounded-xl bg-lime-50 border border-lime-200 text-sm text-lime-700 shadow-sm">
             {success}
           </div>
         )}
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7">
+
           <form onSubmit={handlesubmit} className="space-y-4">
+
             <div>
               <label
                 htmlFor="name"
@@ -146,7 +159,7 @@ const Signup = () => {
                     name: e.target.value,
                   })
                 }
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-200
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200
                            bg-slate-50 text-slate-800 text-sm
                            placeholder:text-slate-400
                            outline-none
@@ -156,6 +169,7 @@ const Signup = () => {
               />
             </div>
 
+         
             <div>
               <label
                 htmlFor="email"
@@ -175,7 +189,7 @@ const Signup = () => {
                     email: e.target.value,
                   })
                 }
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-200
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200
                            bg-slate-50 text-slate-800 text-sm
                            placeholder:text-slate-400
                            outline-none
@@ -185,6 +199,7 @@ const Signup = () => {
               />
             </div>
 
+         
             <div>
               <label
                 htmlFor="mobile"
@@ -206,7 +221,7 @@ const Signup = () => {
                     mobile: e.target.value,
                   })
                 }
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-200
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200
                            bg-slate-50 text-slate-800 text-sm
                            placeholder:text-slate-400
                            outline-none
@@ -216,6 +231,7 @@ const Signup = () => {
               />
             </div>
 
+          
             <div>
               <label
                 htmlFor="password"
@@ -224,27 +240,38 @@ const Signup = () => {
                 Password
               </label>
 
-              <input
-                id="password"
-                type="password"
-                placeholder="Create a password"
-                value={signup.password}
-                onChange={(e) =>
-                  setSignup({
-                    ...signup,
-                    password: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-200
-                           bg-slate-50 text-slate-800 text-sm
-                           placeholder:text-slate-400
-                           outline-none
-                           focus:bg-white focus:border-lime-500
-                           focus:ring-2 focus:ring-lime-100
-                           transition"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Create a password"
+                  value={signup.password}
+                  onChange={(e) =>
+                    setSignup({
+                      ...signup,
+                      password: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 pr-16 rounded-xl border border-slate-200
+                             bg-slate-50 text-slate-800 text-sm
+                             placeholder:text-slate-400
+                             outline-none
+                             focus:bg-white focus:border-lime-500
+                             focus:ring-2 focus:ring-lime-100
+                             transition"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 hover:text-lime-600 transition"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
 
+           
             <div>
               <label
                 htmlFor="confirmpass"
@@ -253,45 +280,60 @@ const Signup = () => {
                 Confirm Password
               </label>
 
-              <input
-                id="confirmpass"
-                type="password"
-                placeholder="Confirm your password"
-                value={signup.confirmPassword}
-                onChange={(e) =>
-                  setSignup({
-                    ...signup,
-                    confirmPassword: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-200
-                           bg-slate-50 text-slate-800 text-sm
-                           placeholder:text-slate-400
-                           outline-none
-                           focus:bg-white focus:border-lime-500
-                           focus:ring-2 focus:ring-lime-100
-                           transition"
-              />
+              <div className="relative">
+                <input
+                  id="confirmpass"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  value={signup.confirmPassword}
+                  onChange={(e) =>
+                    setSignup({
+                      ...signup,
+                      confirmPassword: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 pr-16 rounded-xl border border-slate-200
+                             bg-slate-50 text-slate-800 text-sm
+                             placeholder:text-slate-400
+                             outline-none
+                             focus:bg-white focus:border-lime-500
+                             focus:ring-2 focus:ring-lime-100
+                             transition"
+                />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 hover:text-lime-600 transition"
+                >
+                  {showConfirmPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
 
+           
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 py-2.5 rounded-lg
+              className="w-full mt-2 py-2.5 rounded-xl
                          bg-lime-600 text-white
                          text-sm font-semibold
                          hover:bg-lime-700
                          disabled:bg-lime-400
                          disabled:cursor-not-allowed
+                         shadow-sm hover:shadow
                          transition"
             >
               {loading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 
+       
           <div className="text-center mt-6 pt-5 border-t border-slate-100">
             <p className="text-sm text-slate-500">
-              Already have an account?{" "}
+              Already have an account?
               <button
                 type="button"
                 onClick={() => navigate("/login")}
@@ -302,6 +344,11 @@ const Signup = () => {
             </p>
           </div>
         </div>
+
+        <p className="mt-5 text-center text-xs text-slate-400">
+          By creating an account, you can easily manage your orders
+          and shopping with Alam Kirana.
+        </p>
       </div>
     </div>
   );

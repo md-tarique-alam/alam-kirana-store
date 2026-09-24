@@ -286,7 +286,7 @@ function Checkout() {
                   >
                     Landmark
                     <span className="text-gray-400 font-normal">
-                      {" "} (Optional)
+                       (Optional)
                     </span>
                   </label>
 

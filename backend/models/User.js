@@ -18,16 +18,27 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     mobile: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true
-},
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
     role: {
         type: String,
         enum: ["user", "admin"],
         default: "user",
-    }
+    },
+
+    resetPasswordToken: {
+        type: String,
+        default: null,
+    },
+
+    resetPasswordExpire: {
+        type: Date,
+        default: null,
+    },
+
 }, {
     timestamps: true
 })

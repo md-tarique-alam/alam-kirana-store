@@ -1,6 +1,6 @@
 const express=require("express");
 
-const {signup, login, logout, getUser, findUser , userProfile, updateProfile}=require("../controllers/userController");
+const {signup, login, logout, getUser, findUser , userProfile, updateProfile, forgotPassword, resetPassword}=require("../controllers/userController");
 
 const {authMiddleware, adminMiddleware}=require("../middleware/authMiddleware");
 
@@ -19,5 +19,9 @@ router.get("/", authMiddleware, adminMiddleware, findUser)
 router.get("/profile" ,authMiddleware, userProfile)
 
 router.patch("/update" ,authMiddleware, updateProfile)
+
+router.post("/forgot-password", forgotPassword)
+
+router.post("/reset-password/:token", resetPassword)
     
 module.exports=router;

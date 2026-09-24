@@ -18,6 +18,8 @@ import Signup from "./pages/Signup";
 import UserOrders from "./Admin/Orders";
 import Users from "./Admin/Users";
 import AdminDashboard from "./Admin/AdminDashboard";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
@@ -64,6 +66,8 @@ function App() {
           }
         />
         <Route path="/orderplaced" element={<OrderPlaced/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/> } />
+        <Route path="/reset-password/:token" element={<ResetPassword/> } />
         </Route>
 
         <Route path="/admin" element={ <AdminLayout/> }>
