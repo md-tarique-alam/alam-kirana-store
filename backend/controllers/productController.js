@@ -79,16 +79,33 @@ exports.deleteProduct = async (req, res) => {
 }
 
 exports.updateProduct = async (req, res) => {
-    try {
-        const updateproduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(updateproduct);
+  try {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      updateData.image = result.secure_url;
     }
-    catch (error) {
-        res.status(500).json({
-            message: error.message,
-        })
-    };
-}
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    return res.status(200).json(updatedProduct);
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 exports.findProduct = async (req, res) => {
     try {

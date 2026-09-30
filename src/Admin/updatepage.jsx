@@ -8,10 +8,12 @@ const Updatepage = () => {
     price: "",
     unit: "",
     category: "",
-    image: "",
     description: "",
     stock: "",
   });
+
+  const [image, setImage] = useState(null);
+  const [existingImage, setExistingImage] = useState("");
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,6 +30,7 @@ const Updatepage = () => {
     try {
       const res = await axios.get(`http://localhost:5000/products/${id}`);
       setUpdateForm(res.data);
+      setExistingImage(res.data.image);
     } catch (error) {
       setError(error.response?.data?.message || "Unable to load product");
     }
@@ -39,7 +42,19 @@ const Updatepage = () => {
     setSuccess("");
 
     try {
-      await axios.put(`http://localhost:5000/products/${id}`, updateForm, {
+      const data = new FormData();
+
+      data.append("name", updateForm.name);
+      data.append("price", updateForm.price);
+      data.append("unit", updateForm.unit);
+      data.append("category", updateForm.category);
+      data.append("stock", updateForm.stock);
+      data.append("description", updateForm.description);
+
+      if (image) {
+        data.append("image", image);
+      }
+      await axios.put(`http://localhost:5000/products/${id}`, data, {
         withCredentials: true,
       });
 
@@ -250,26 +265,23 @@ const Updatepage = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="image"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Product Image URL
-                </label>
+                <div>
+                  <label className="block mb-2">Product Image</label>
 
-                <input
-                  id="image"
-                  type="text"
-                  value={updateForm.image}
-                  onChange={(e) =>
-                    setUpdateForm({
-                      ...updateForm,
-                      image: e.target.value,
-                    })
-                  }
-                  placeholder="Paste product image URL"
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-lime-600 focus:ring-2 focus:ring-lime-100 transition"
-                />
+                  {existingImage && !image && (
+                    <img
+                      src={existingImage}
+                      alt="Current product"
+                      className="mb-3 h-28 w-28 object-contain"
+                    />
+                  )}
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
               </div>
 
               <div>

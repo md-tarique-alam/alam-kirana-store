@@ -4,66 +4,61 @@ import { productscontext } from "./context/productscontext";
 import CategoryCard from "./components/categorycard";
 import { useOutletContext } from "react-router-dom";
 
-
-
 function Home() {
-  
-  const {products, categories}=useContext(productscontext);
-  const {search}=useOutletContext();
+  const { products, categories } = useContext(productscontext);
+  const { search } = useOutletContext();
 
   const filteredProducts = products.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
- <div className="min-h-screen bg-slate-100 py-6">
-
-
-  <section className="max-w-7xl mx-auto px-4">
-
-    <h1 className="text-2xl sm:text-3xl font-semibold
-                   text-center text-slate-800 mb-6">
-      Shop by Category
-    </h1>
-
-    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6
-                    gap-3 sm:gap-4 items-start">
-
-      {categories.map((category) => (
-        <CategoryCard
-          key={category}
-          category={category}
+    <div className="min-h-screen bg-slate-100 py-6">
+      <section className="max-w-7xl mx-auto px-4 pt-4">
+        <img
+          src="/images/grocery.png"
+          alt="Alam Kirana Store — You Order, We Deliver. Free delivery."
+          className="block w-full h-auto rounded-2xl shadow-sm"
         />
-      ))}
+      </section>
 
-    </div>
+      <section className="max-w-7xl mx-auto px-4 mt-8">
+        <h1
+          className="text-2xl sm:text-3xl font-semibold
+                   text-center text-slate-800 mb-6"
+        >
+          Shop by Category
+        </h1>
 
-  </section>
+        <div
+          className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6
+                    gap-3 sm:gap-4 items-start"
+        >
+          {categories.map((category) => (
+            <CategoryCard key={category} category={category} />
+          ))}
+        </div>
+      </section>
 
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h1
+          className="text-2xl sm:text-3xl font-semibold
+                   text-center text-slate-800 mb-6"
+        >
+          All Products
+        </h1>
 
-  <section className="max-w-7xl mx-auto px-4 mt-10">
-
-    <h1 className="text-2xl sm:text-3xl font-semibold
-                   text-center text-slate-800 mb-6">
-      All Products
-    </h1>
-
-    <div className="grid grid-cols-2 sm:grid-cols-3
+        <div
+          className="grid grid-cols-2 sm:grid-cols-3
                     md:grid-cols-4 lg:grid-cols-6
-                    gap-3 sm:gap-4">
-
-      {filteredProducts.map((product) => (
-        <ProductCard
-          key={product._id}
-          product={product}
-        />
-      ))}
-
+                    gap-3 sm:gap-4"
+        >
+          {filteredProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      </section>
     </div>
-
-  </section>
-
-</div>
   );
 }
 

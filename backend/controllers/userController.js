@@ -266,7 +266,7 @@ exports.resetPassword = async (req, res) => {
 
         user.resetPasswordToken = null;
         user.resetPasswordExpire = null;
-
+  
         await user.save();
 
         return res.status(200).json({

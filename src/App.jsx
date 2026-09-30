@@ -21,6 +21,7 @@ import AdminDashboard from "./Admin/AdminDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+
 function App() {
 
   return (
@@ -67,7 +68,7 @@ function App() {
         />
         <Route path="/orderplaced" element={<OrderPlaced/>} />
         <Route path="/forgot-password" element={<ForgotPassword/> } />
-        <Route path="/reset-password/:token" element={<ResetPassword/> } />
+        <Route path="/reset-password/:token" element={<ResetPassword/> } />  
         </Route>
 
         <Route path="/admin" element={ <AdminLayout/> }>
@@ -79,6 +80,7 @@ function App() {
         <Route path="users" element={ <Users/> }/>
         </Route>
       </Routes>
+     
 
     </div>
   );
