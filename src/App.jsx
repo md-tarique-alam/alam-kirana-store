@@ -20,7 +20,23 @@ import Users from "./Admin/Users";
 import AdminDashboard from "./Admin/AdminDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { authcontext } from "./context/Authcontext";
 
+function HomeRedirect() {
+  const { user, authLoading } = useContext(authcontext);
+
+  if (authLoading) {
+     return <div>Checking your account...</div>;
+  }
+
+  if (user?.role === "admin") {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return <Home />;
+}
 
 function App() {
 
@@ -29,7 +45,7 @@ function App() {
     
       <Routes>
         <Route element={ <CustomerLayot/> }>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<HomeRedirect />} />
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/login" element={<Authpage />} />

@@ -1,8 +1,17 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { authcontext } from "../context/Authcontext";
 
 const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { logout } = useContext(authcontext);
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate("/login");
+  }
 
   const navItems = [
     { name: "Dashboard", path: "/admin", icon: "📊", end: true },
@@ -79,6 +88,7 @@ const AdminSidebar = () => {
           </nav>
 
           <div className="p-4 border-t border-slate-100">
+
             <div className="bg-slate-50 rounded-xl p-4">
               <p className="text-xs font-medium text-slate-500">
                 Store Admin
@@ -88,6 +98,21 @@ const AdminSidebar = () => {
                 Manage your store
               </p>
             </div>
+
+          
+            <button
+              onClick={handleLogout}
+              className="mt-3 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50 cursor-pointer "
+            >
+              <span className="text-base">
+                🚪
+              </span>
+
+              <span>
+                Logout
+              </span>
+            </button>
+
           </div>
 
         </div>
