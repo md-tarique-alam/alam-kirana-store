@@ -3,7 +3,7 @@ const Product = require("../models/product")
 
 exports.getmyorders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user.userId })
+    const orders = await Order.find({ user: req.user.userId }).sort({ createdAt: -1 , _id: -1 })
     res.status(200).json( orders )
   }
   catch (error) {
@@ -89,7 +89,7 @@ exports.cancelorder = async (req, res) => {
       });
     }
 
-    if (order.status !== "placed") {
+    if (order.status !== "Placed") {
       return res.status(400).json({
         message: "Order is not in cancellable mode"
       });
@@ -106,7 +106,7 @@ exports.cancelorder = async (req, res) => {
       );
     }
 
-    order.status = "cancelled";
+    order.status = "Cancelled";
     await order.save();
 
     return res.status(200).json({

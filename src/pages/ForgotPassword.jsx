@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/users/forgot-password",
+        "http://localhost:5001/users/forgot-password",
         { email },
         { withCredentials: true }
       );

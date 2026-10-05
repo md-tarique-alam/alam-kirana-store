@@ -35,7 +35,7 @@ const Signup = () => {
       setSuccess("");
 
       await axios.post(
-        "http://localhost:5000/users/signup",
+        "http://localhost:5001/users/signup",
         userData
       );
 

@@ -19,7 +19,7 @@ useEffect(()=>{
 
 async function getUser(){
    try{
-    const res=await axios.get("http://localhost:5000/users/me" , {withCredentials:true})
+    const res=await axios.get("http://localhost:5001/users/me" , {withCredentials:true})
     setUser(res.data.user)
    }
    catch(error){
@@ -32,7 +32,7 @@ async function getUser(){
 
 async function logout(){
   try{
-  await axios.post("http://localhost:5000/users/logout", {}, {withCredentials:true});
+  await axios.post("http://localhost:5001/users/logout", {}, {withCredentials:true});
    setUser(null)
   }
   catch(error){

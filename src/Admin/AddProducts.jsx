@@ -29,7 +29,7 @@ function AdminData() {
       data.append("description", formdata.description);
       data.append("stock", formdata.stock);
       data.append("image", image);
-      const res = await axios.post("http://localhost:5000/products", data, {
+      const res = await axios.post("http://localhost:5001/products", data, {
         withCredentials: true,
       });
 
@@ -207,7 +207,7 @@ function AdminData() {
 
                 <input
                   id="unit"
-                  type="number"
+                  type="text"
                   value={formdata.unit}
                   onChange={(e) =>
                     setFormdata({

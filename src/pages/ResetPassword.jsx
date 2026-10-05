@@ -36,7 +36,7 @@ async function handleSubmit(e) {
 
   try {
       const res = await axios.post(
-        `http://localhost:5000/users/reset-password/${token}`,
+        `http://localhost:5001/users/reset-password/${token}`,
         {
           password,
         },

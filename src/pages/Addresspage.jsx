@@ -27,7 +27,7 @@ function Address() {
       setLoading(true);
       setError("");
 
-      const res = await axios.get("http://localhost:5000/address", {
+      const res = await axios.get("http://localhost:5001/address", {
         withCredentials: true,
       });
 
@@ -83,7 +83,7 @@ function Address() {
 
       if (editingFormId) {
         const res = await axios.patch(
-          `http://localhost:5000/address/${editingFormId}/update`,
+          `http://localhost:5001/address/${editingFormId}/update`,
           formData,
           {
             withCredentials: true,
@@ -99,7 +99,7 @@ function Address() {
         );
       } else {
         const res = await axios.post(
-          "http://localhost:5000/address/add",
+          "http://localhost:5001/address/add",
           formData,
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ function Address() {
     try {
       setError("");
 
-      await axios.delete(`http://localhost:5000/address/${id}/delete`, {
+      await axios.delete(`http://localhost:5001/address/${id}/delete`, {
         withCredentials: true,
       });
 

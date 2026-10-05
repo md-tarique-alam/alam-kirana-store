@@ -18,11 +18,11 @@ const AdminDashboard = () => {
 
     try {
       const [ordersRes, productsRes, usersRes] = await Promise.all([
-        axios.get("http://localhost:5000/orders", {
+        axios.get("http://localhost:5001/orders", {
           withCredentials: true,
         }),
-        axios.get("http://localhost:5000/products"),
-        axios.get("http://localhost:5000/users", {
+        axios.get("http://localhost:5001/products"),
+        axios.get("http://localhost:5001/users", {
           withCredentials: true,
         }),
       ]);

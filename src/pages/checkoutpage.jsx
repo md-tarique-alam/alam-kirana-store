@@ -36,7 +36,7 @@ function Checkout() {
     setLoading(true);
 
     try {
-      const res = await axios.get("http://localhost:5000/address", {
+      const res = await axios.get("http://localhost:5001/address", {
         withCredentials: true,
       });
 
@@ -77,7 +77,7 @@ function Checkout() {
       setError("");
 
       await axios.post(
-        "http://localhost:5000/orders",
+        "http://localhost:5001/orders",
         {
           items,
           address: orderAddress,
@@ -124,7 +124,7 @@ function Checkout() {
 
       if (saveAddress) {
         await axios.post(
-          "http://localhost:5000/address/add",
+          "http://localhost:5001/address/add",
           formData,
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ function Checkout() {
       }
 
       await axios.post(
-        "http://localhost:5000/orders",
+        "http://localhost:5001/orders",
         {
           items,
           address: formData,

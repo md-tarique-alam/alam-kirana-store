@@ -14,7 +14,7 @@ function Orders() {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get("http://localhost:5000/orders/my-orders", {
+      const res = await axios.get("http://localhost:5001/orders/my-orders", {
         withCredentials: true,
       });
       setOrders(res.data);
@@ -43,7 +43,7 @@ function Orders() {
     }
     try {
       const res = await axios.patch(
-        `http://localhost:5000/orders/${id}/cancel`,
+        `http://localhost:5001/orders/${id}/cancel`,
         {},
         { withCredentials: true },
       );
@@ -95,9 +95,9 @@ function Orders() {
 
                 <span
                   className={`w-fit rounded-full px-3 py-1 text-xs font-bold capitalize ${
-                    order.status === "placed"
+                    order.status === "Placed"
                       ? "bg-lime-600 text-white"
-                      : order.status === "cancelled"
+                      : order.status === "Cancelled"
                         ? "bg-red-100 text-red-700"
                         : "bg-slate-200 text-slate-700"
                   }`}
@@ -208,18 +208,18 @@ function Orders() {
                   </span>
                 </p>
 
-                {order.status === "placed" ? (
+                {order.status === "Placed" ? (
                   <button
                     onClick={() => cancelorder(order._id)}
                     className="w-full rounded-lg bg-lime-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-lime-700 active:scale-[0.98] sm:w-auto"
                   >
                     Cancel Order
                   </button>
-                ) : (
+                ) : order.status === "Cancelled" ? (
                   <span className="w-full rounded-lg bg-red-50 px-4 py-2 text-center text-xs font-bold text-red-600 sm:w-auto">
                     Order Cancelled
                   </span>
-                )}
+                ) : null}
               </div>
             </div>
           ))}
