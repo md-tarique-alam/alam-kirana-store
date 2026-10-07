@@ -36,7 +36,7 @@ function Checkout() {
     setLoading(true);
 
     try {
-      const res = await axios.get("http://localhost:5001/address", {
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/address", {
         withCredentials: true,
       });
 
@@ -77,7 +77,7 @@ function Checkout() {
       setError("");
 
       await axios.post(
-        "http://localhost:5001/orders",
+        "https://alam-kirana-backend.onrender.com/orders",
         {
           items,
           address: orderAddress,
@@ -124,7 +124,7 @@ function Checkout() {
 
       if (saveAddress) {
         await axios.post(
-          "http://localhost:5001/address/add",
+          "https://alam-kirana-backend.onrender.com/address/add",
           formData,
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ function Checkout() {
       }
 
       await axios.post(
-        "http://localhost:5001/orders",
+        "https://alam-kirana-backend.onrender.com/orders",
         {
           items,
           address: formData,

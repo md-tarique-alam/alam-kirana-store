@@ -22,7 +22,7 @@ const AllProducts = () => {
     try {
       setError("");
 
-      const res = await axios.get("http://localhost:5001/products");
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/products");
 
       setProducts(res.data);
     } catch (error) {
@@ -39,7 +39,7 @@ const AllProducts = () => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:5001/products/${id}`, {
+      await axios.delete(`https://alam-kirana-backend.onrender.com/products/${id}`, {
         withCredentials: true,
       });
 

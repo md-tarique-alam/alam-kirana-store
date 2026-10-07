@@ -15,7 +15,7 @@ const UserOrders = () => {
     setError("");
 
     try {
-      const res = await axios.get("http://localhost:5001/orders", {
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/orders", {
         withCredentials: true,
       });
 
@@ -32,7 +32,7 @@ const UserOrders = () => {
 
     try {
       const res = await axios.patch(
-        `http://localhost:5001/orders/${id}/status`,
+        `https://alam-kirana-backend.onrender.com/orders/${id}/status`,
         { status: newStatus },
         { withCredentials: true }
       );

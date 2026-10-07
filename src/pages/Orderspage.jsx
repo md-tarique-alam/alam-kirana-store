@@ -14,7 +14,7 @@ function Orders() {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get("http://localhost:5001/orders/my-orders", {
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/orders/my-orders", {
         withCredentials: true,
       });
       setOrders(res.data);
@@ -43,7 +43,7 @@ function Orders() {
     }
     try {
       const res = await axios.patch(
-        `http://localhost:5001/orders/${id}/cancel`,
+        `https://alam-kirana-backend.onrender.com/orders/${id}/cancel`,
         {},
         { withCredentials: true },
       );

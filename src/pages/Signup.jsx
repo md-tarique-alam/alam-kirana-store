@@ -35,7 +35,7 @@ const Signup = () => {
       setSuccess("");
 
       await axios.post(
-        "http://localhost:5001/users/signup",
+        "https://alam-kirana-backend.onrender.com/users/signup",
         userData
       );
 

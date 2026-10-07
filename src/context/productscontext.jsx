@@ -14,7 +14,7 @@ function ProductsProvider({ children }) {
 
   async function getData() {
     try {
-      const res = await axios.get("http://localhost:5001/products");
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/products");
       setProducts(res.data);
     } catch(error){
       setError(error.response?.data?.message || "something went wrong");

@@ -95,7 +95,7 @@ function ProductCard({ product }) {
             onClick={() => handleaddcart(product)}
             className="w-full flex items-center justify-center gap-1.5
                        py-2 rounded-lg
-                       bg-lime-200 text-lime-800
+                       bg-lime-100 text-lime-800
                        border border-lime-300
                        text-sm font-semibold
                        hover:bg-lime-700 hover:text-white

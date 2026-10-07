@@ -36,7 +36,7 @@ async function handleSubmit(e) {
 
   try {
       const res = await axios.post(
-        `http://localhost:5001/users/reset-password/${token}`,
+        `https://alam-kirana-backend.onrender.com/users/reset-password/${token}`,
         {
           password,
         },

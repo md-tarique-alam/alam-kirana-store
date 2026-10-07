@@ -29,7 +29,7 @@ function AdminData() {
       data.append("description", formdata.description);
       data.append("stock", formdata.stock);
       data.append("image", image);
-      const res = await axios.post("http://localhost:5001/products", data, {
+      const res = await axios.post("https://alam-kirana-backend.onrender.com/products", data, {
         withCredentials: true,
       });
 

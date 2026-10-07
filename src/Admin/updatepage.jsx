@@ -28,7 +28,7 @@ const Updatepage = () => {
 
   async function getProduct() {
     try {
-      const res = await axios.get(`http://localhost:5001/products/${id}`);
+      const res = await axios.get(`https://alam-kirana-backend.onrender.com/products/${id}`);
       setUpdateForm(res.data);
       setExistingImage(res.data.image);
     } catch (error) {
@@ -54,7 +54,7 @@ const Updatepage = () => {
       if (image) {
         data.append("image", image);
       }
-      await axios.put(`http://localhost:5001/products/${id}`, data, {
+      await axios.put(`https://alam-kirana-backend.onrender.com/products/${id}`, data, {
         withCredentials: true,
       });
 

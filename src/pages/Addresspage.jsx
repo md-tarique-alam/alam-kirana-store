@@ -27,7 +27,7 @@ function Address() {
       setLoading(true);
       setError("");
 
-      const res = await axios.get("http://localhost:5001/address", {
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/address", {
         withCredentials: true,
       });
 
@@ -83,7 +83,7 @@ function Address() {
 
       if (editingFormId) {
         const res = await axios.patch(
-          `http://localhost:5001/address/${editingFormId}/update`,
+          `https://alam-kirana-backend.onrender.com/address/${editingFormId}/update`,
           formData,
           {
             withCredentials: true,
@@ -99,7 +99,7 @@ function Address() {
         );
       } else {
         const res = await axios.post(
-          "http://localhost:5001/address/add",
+          "https://alam-kirana-backend.onrender.com/address/add",
           formData,
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ function Address() {
     try {
       setError("");
 
-      await axios.delete(`http://localhost:5001/address/${id}/delete`, {
+      await axios.delete(`https://alam-kirana-backend.onrender.com/address/${id}/delete`, {
         withCredentials: true,
       });
 

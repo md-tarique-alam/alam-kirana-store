@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/users/forgot-password",
+        "https://alam-kirana-backend.onrender.com/users/forgot-password",
         { email },
         { withCredentials: true }
       );

@@ -27,7 +27,7 @@ function ProductPage() {
     try {
       setLoading(true);
       SetError("");
-      const res = await axios.get(`http://localhost:5001/products/${id}`);
+      const res = await axios.get(`https://alam-kirana-backend.onrender.com/products/${id}`);
       setProduct(res.data);
     } catch (error) {
       SetError(error.response?.data?.message || "something went wrong");

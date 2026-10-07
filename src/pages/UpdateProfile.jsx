@@ -23,7 +23,7 @@ function UpdateProfile() {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get("http://localhost:5001/users/profile", {
+      const res = await axios.get("https://alam-kirana-backend.onrender.com/users/profile", {
         withCredentials: true,
       });
       const user = res.data.user;
@@ -39,7 +39,7 @@ function UpdateProfile() {
   async function handleUpdate() {
     try {
       const res = await axios.patch(
-        "http://localhost:5001/users/update",
+        "https://alam-kirana-backend.onrender.com/users/update",
         formData,
         { withCredentials: true },
       );
