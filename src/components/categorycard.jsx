@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 function CategoryCard({ category }) {
 
-  console.log("CATEGORY:", category);
-
   const categoryImages = {
     "Baby Care": "/images/Baby Care.png",
     "Chips & Snacks": "/images/Chips & Snacks.jpg",
