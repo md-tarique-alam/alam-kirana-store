@@ -11,64 +11,47 @@ function ProductCard({ product }) {
 
   return (
     <div
-      className="group w-full bg-white rounded-xl border border-slate-200
-        hover:border-lime-400 hover:shadow-md
-        transition-all duration-300 overflow-hidden"
+      className="group flex w-full min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 hover:border-lime-400 hover:shadow-md"
     >
-      <Link to={`/product/${product._id}`}>
+      <Link to={`/product/${product._id}`} className="block">
         <div className="p-2.5 sm:p-3">
-          <div
-            className="w-full aspect-square overflow-hidden
-                      rounded-lg bg-slate-50"
-          >
+          
+          <div className="aspect-square w-full overflow-hidden rounded-lg bg-slate-50">
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-contain
-                         group-hover:scale-105
-                         transition-transform duration-300"
+              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </div>
 
+          
           <h2
-            className="text-sm font-semibold text-slate-800
-                         mt-3 line-clamp-2 min-h-[40px]
-                         group-hover:text-lime-700
-                         transition-colors"
+            className="mt-2.5 line-clamp-2 min-h-[40px] text-sm font-semibold leading-5 text-slate-800 transition-colors group-hover:text-lime-700 sm:mt-3 sm:text-base"
           >
             {product.name}
           </h2>
 
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-lg font-bold text-slate-900">
+          
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <span className="text-base font-bold text-slate-900 sm:text-lg">
               ₹{product.price}
             </span>
 
-            <span
-              className="text-xs text-slate-700
-                             bg-slate-100 px-2 py-1 rounded-md"
-            >
+            <span className="shrink-0 rounded-md bg-slate-100 px-2 py-1 text-[11px] text-slate-700 sm:text-xs">
               {product.unit}
             </span>
           </div>
         </div>
       </Link>
 
-      <div className="px-2.5 pb-2.5 sm:px-3 sm:pb-3">
+      
+      <div className="mt-auto px-2.5 pb-2.5 sm:px-3 sm:pb-3">
         {exist ? (
-          <div
-            className="flex items-center justify-between
-                          bg-lime-50 border border-lime-200
-                          rounded-lg p-1"
-          >
+          <div className="flex h-9 items-center justify-between rounded-lg border border-lime-200 bg-lime-50 p-1 sm:h-10">
             <button
               type="button"
               onClick={() => handledecrease(product._id)}
-              className="w-8 h-8 rounded-md bg-lime-600
-                         border border-lime-200
-                         text-slate-800 font-bold 
-                         hover:bg-lime-700
-                         cursor-pointer transition"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-lime-600 text-sm font-bold text-white transition hover:bg-lime-700 sm:h-8 sm:w-8"
             >
               −
             </button>
@@ -80,11 +63,7 @@ function ProductCard({ product }) {
             <button
               type="button"
               onClick={() => handleincrease(product._id)}
-              className="w-8 h-8 rounded-md bg-lime-600
-                         border border-lime-200
-                         text-slate-800 font-bold
-                         hover:bg-lime-700
-                         cursor-pointer transition"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-lime-600 text-sm font-bold text-white transition hover:bg-lime-700 sm:h-8 sm:w-8"
             >
               +
             </button>
@@ -93,16 +72,9 @@ function ProductCard({ product }) {
           <button
             type="button"
             onClick={() => handleaddcart(product)}
-            className="w-full flex items-center justify-center gap-1.5
-                       py-2 rounded-lg
-                       bg-lime-100 text-lime-800
-                       border border-lime-300
-                       text-sm font-semibold
-                       hover:bg-lime-700 hover:text-white
-                       hover:border-lime-600
-                       cursor-pointer transition-all duration-300"
+            className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-lime-300 bg-lime-100 text-xs font-semibold text-lime-800 transition-all duration-300 hover:border-lime-600 hover:bg-lime-700 hover:text-white sm:h-10 sm:text-sm"
           >
-            <HiShoppingCart className="text-base" />
+            <HiShoppingCart className="text-sm sm:text-base" />
             Add
           </button>
         )}
@@ -110,4 +82,5 @@ function ProductCard({ product }) {
     </div>
   );
 }
+
 export default ProductCard;

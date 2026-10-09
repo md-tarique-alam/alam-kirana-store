@@ -1,9 +1,7 @@
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { cartcontext } from "../context/cartcontext";
 import { HiShoppingCart } from "react-icons/hi";
-import { BiInfoCircle, BiLeaf, BiShield } from "react-icons/bi";
 import { IoReturnUpBack } from "react-icons/io5";
 import { FcCancel } from "react-icons/fc";
 import { LuLeafyGreen } from "react-icons/lu";
@@ -27,106 +25,225 @@ function ProductPage() {
     try {
       setLoading(true);
       SetError("");
-      const res = await axios.get(`https://alam-kirana-backend.onrender.com/products/${id}`);
+
+      const res = await axios.get(
+        `https://alam-kirana-backend.onrender.com/products/${id}`
+      );
+
       setProduct(res.data);
     } catch (error) {
-      SetError(error.response?.data?.message || "something went wrong");
+      SetError(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return <h2>loading...</h2>;
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-slate-100 px-4">
+        <div className="rounded-xl bg-white px-6 py-4 text-sm font-medium text-slate-600 shadow-sm">
+          Loading product...
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <h2>{error}</h2>;
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-slate-100 px-4">
+        <div className="rounded-xl bg-white px-6 py-5 text-center shadow-sm">
+          <p className="font-medium text-red-600">{error}</p>
+
+          <Link
+            to="/"
+            className="mt-4 inline-block rounded-lg bg-lime-600 px-5 py-2 text-sm font-semibold text-white hover:bg-lime-700"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   const exist = cart.find((item) => item._id === product._id);
 
   return (
-    <div>
-      <div className="w-full flex justify-between items-center py-6 px-25 bg-slate-100">
-        <h2 className="text-xl font-semibold">{product.name}</h2>
-        <Link className="text-md hover:text-lime-900 font-semibold" to="/">
-          Home
-        </Link>
+    <div className="min-h-screen bg-slate-100">
+
+      
+      <div className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <div className="min-w-0">
+            <p className="truncate text-sm text-slate-500">
+              Home / {product.category}
+            </p>
+
+            <h2 className="mt-1 truncate text-lg font-semibold text-slate-900 sm:text-xl">
+              {product.name}
+            </h2>
+          </div>
+
+          <Link
+            to="/"
+            className="shrink-0 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-lime-50 hover:text-lime-700"
+          >
+            ← Home
+          </Link>
+        </div>
       </div>
 
-      <div className=" flex gap-3 pl-15 pt-6">
-        <img
-          className=" h-96 gap-2 object-cover rounded-xl hover:scale-105 transition"
-          src={product.image}
-        />
+     
+      <main className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
 
-        <div className="flex flex-col pl-9">
-          <h1 className="text-4xl font-medium mb-2 ">{product.name}</h1>
-          <div className="flex mb-2">
-            <span className="text-sm">Seller:</span>
-            <p className="text-sm font-semibold">Alam Store</p>
-          </div>
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-          <hr className="my-3 border-slate-300" />
+          <div className="grid grid-cols-1 gap-0 lg:grid-cols-2">
 
-          <h2 className="text-3xl font-semibold mt-4 mb-6">₹{product.price}</h2>
-          <p className="text-md mb-1">Choose Variants</p>
-          <div className="w-45 p-2 bg-lime-100 border border-lime-600 rounded-md flex flex-col justify-center items-center mb-8">
-            <h2 className="text-md font-medium mb-1">1 {product.unit}</h2>
-            <h2 className=" text-md">₹{product.price}</h2>
-          </div>
-
-          {exist ? (
-            <div className="flex justify-between items-center gap-2 bg-lime-800 text-white w-35 h-13 px-4 py-3 rounded-lg mb-2 ">
-              <button
-                className="text-md font-semibold cursor-pointer"
-                onClick={() => handledecrease(product._id)}
-              >
-                {" "}
-                -{" "}
-              </button>
-              <span className="text-md">{exist.quantity}</span>
-              <button
-                className="text-md font-semibold cursor-pointer"
-                onClick={() => handleincrease(product._id)}
-              >
-                {" "}
-                +{" "}
-              </button>
+           
+            <div className="flex min-h-[320px] items-center justify-center bg-slate-50 p-6 sm:min-h-[420px] sm:p-10 lg:min-h-[560px]">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-auto max-h-[330px] w-full max-w-[330px] object-contain transition duration-300 hover:scale-105 sm:max-h-[420px] sm:max-w-[420px]"
+              />
             </div>
-          ) : (
-            <button
-              className="flex items-center justify-center gap-1 px-4 py-3 w-35 h-13 bg-lime-800 text-white border border-lime-600 rounded-lg cursor-pointer mb-2 hover:scale-102 transition"
-              onClick={() => handleaddcart(product)}
-            >
-              <HiShoppingCart />
-              Add to cart
-            </button>
-          )}
-          <div className="flex flex-col gap-5 bg-slate-100 pl-3 pr-200 py-4 ">
-            <div className="flex items-center text-center gap-1">
-              <span className="text-green-500 text-3xl">
-                <LuLeafyGreen />{" "}
-              </span>
-              <p>Vegetarian</p>
-            </div>
-            <div className="flex items-center text-center gap-1">
-              <span className="text-3xl">
-                <FcCancel />
-              </span>
-              <p> Product is cancellable till</p>
-            </div>
-            <div className="flex items-center text-center gap-1">
-              <span className="text-3xl">
-                <IoReturnUpBack />{" "}
-              </span>{" "}
-              <p className="text-md font-medium">Non-Returnable</p>
+
+            
+            <div className="flex flex-col p-5 sm:p-8 lg:p-10">
+
+              
+              <div>
+                <p className="text-sm font-medium text-slate-500">
+                  {product.category}
+                </p>
+
+                <h1 className="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                  {product.name}
+                </h1>
+
+                <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
+                  <span>Seller:</span>
+                  <span className="font-semibold text-slate-800">
+                    Alam Store
+                  </span>
+                </div>
+              </div>
+
+              <div className="my-5 border-t border-slate-200" />
+
+              
+              <div>
+                <p className="text-sm font-medium text-slate-500">
+                  Price
+                </p>
+
+                <p className="mt-1 text-3xl font-bold text-slate-900 sm:text-4xl">
+                  ₹{product.price}
+                </p>
+              </div>
+
+              
+              <div className="mt-6">
+                <p className="mb-3 text-sm font-semibold text-slate-800">
+                  Choose Variant
+                </p>
+
+                <div className="w-full rounded-xl border-2 border-lime-600 bg-lime-50 p-4 sm:w-52">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-sm font-semibold text-slate-800">
+                      1 {product.unit}
+                    </span>
+
+                    <span className="text-sm font-bold text-slate-900">
+                      ₹{product.price}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              
+              <div className="mt-6">
+                {exist ? (
+                  <div className="flex h-12 w-full max-w-[180px] items-center justify-between rounded-lg bg-lime-700 px-4 text-white shadow-sm">
+                    <button
+                      className="text-xl font-semibold"
+                      onClick={() => handledecrease(product._id)}
+                    >
+                      −
+                    </button>
+
+                    <span className="text-sm font-bold">
+                      {exist.quantity}
+                    </span>
+
+                    <button
+                      className="text-xl font-semibold"
+                      onClick={() => handleincrease(product._id)}
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="flex h-12 w-full max-w-[220px] items-center justify-center gap-2 rounded-lg bg-lime-700 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-lime-800 active:scale-[0.98]"
+                    onClick={() => handleaddcart(product)}
+                  >
+                    <HiShoppingCart className="text-lg" />
+                    Add to cart
+                  </button>
+                )}
+              </div>
+
+              
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
+
+                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
+                  <LuLeafyGreen className="shrink-0 text-2xl text-green-600" />
+
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      Vegetarian
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Suitable for vegetarian customers
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
+                  <FcCancel className="shrink-0 text-2xl" />
+
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      Cancellation available
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Cancellation available before processing
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
+                  <IoReturnUpBack className="shrink-0 text-2xl text-slate-700" />
+
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      Non-returnable
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      This grocery item cannot be returned
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
+
 export default ProductPage;
