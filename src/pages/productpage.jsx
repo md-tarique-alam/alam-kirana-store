@@ -151,7 +151,7 @@ function ProductPage() {
                 <div className="w-full rounded-xl border-2 border-lime-600 bg-lime-50 p-4 sm:w-52">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-sm font-semibold text-slate-800">
-                      1 {product.unit}
+                      {product.unit}
                     </span>
 
                     <span className="text-sm font-bold text-slate-900">

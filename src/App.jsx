@@ -23,6 +23,7 @@ import ResetPassword from "./pages/ResetPassword";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { authcontext } from "./context/Authcontext";
+import ScrollToTop from "./ScrollToTop";
 
 function HomeRedirect() {
   const { user, authLoading } = useContext(authcontext);
@@ -42,7 +43,8 @@ function App() {
 
   return (
     <div>
-    
+
+      <ScrollToTop/>
       <Routes>
         <Route element={ <CustomerLayot/> }>
         <Route path="/" element={<HomeRedirect />} />
