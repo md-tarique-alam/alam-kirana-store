@@ -25,7 +25,7 @@ const AdminSidebar = () => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm text-slate-700 text-xl"
+        className="lg:hidden fixed top-4 left-4 z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl text-slate-700 shadow-sm"
       >
         ☰
       </button>
@@ -63,7 +63,7 @@ const AdminSidebar = () => {
             </button>
           </div>
 
-          <nav className="flex-1 px-3 py-5 space-y-1">
+          <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-5">
             {navItems.map((item) => (
               <NavLink
                 key={item.path}

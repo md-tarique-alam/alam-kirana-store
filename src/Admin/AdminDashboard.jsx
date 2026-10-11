@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen min-w-0 flex-1 bg-slate-50 px-4 pt-16 pb-8 sm:px-6 sm:pt-8 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-7">
           <p className="text-sm font-medium text-lime-600">Admin Panel</p>

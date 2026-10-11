@@ -25,7 +25,7 @@ function CategoryPage() {
         </div>
       </div>
 
-      <main className="mx-auto max-w-7xl px-3 py-5 sm:px-6 lg:px-8">
+      <main className="mx-auto min-h-[60vh] max-w-7xl px-3 py-8 sm:px-6 sm:py-10 lg:px-8">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {filteredcategory.map((product) => (
             <ProductCard key={product._id} product={product} />
