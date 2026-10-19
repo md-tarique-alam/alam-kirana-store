@@ -29,7 +29,10 @@ exports.createorders = async (req, res) => {
   const orderItems = [];
   let total = 0;
   try {
-    const { items, address } = req.body
+    const { items, address, paymentstatus } = req.body
+
+    if(paymentstatus==="Cash-on-delivery"){
+      
     for (const item of items) {
       const product = await Product.findById(item.productId)
       if (!product) {
@@ -51,7 +54,7 @@ exports.createorders = async (req, res) => {
       })
 
       total += product.price * item.quantity
-    }
+    }}
     const order = await Order.create({ user: req.user.userId, items: orderItems, address, total });
 
     for (const orderItem of orderItems) {
@@ -73,53 +76,158 @@ exports.createorders = async (req, res) => {
   }
 }
 
-exports.cancelorder = async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
 
-    if (!order) {
-      return res.status(404).json({
-        message: "Order not found"
-      });
-    }
 
-    if (order.user.toString() !== req.user.userId) {
-      return res.status(403).json({
-        message: "You are not authorized to cancel this order"
-      });
-    }
+// exports.createorders = async (req, res) => {
+//   const orderItems = [];
+//   let total = 0;
 
-    if (order.status !== "Placed") {
-      return res.status(400).json({
-        message: "Order is not in cancellable mode"
-      });
-    }
+//   try {
+//     const {
+//       items,
+//       address,
+//       paymentmethod = "Cash-on-delivery",
+//     } = req.body;
 
-    for (const orderItem of order.items) {
-      await Product.findByIdAndUpdate(
-        orderItem.productId,
-        {
-          $inc: {
-            stock: orderItem.quantity
-          }
-        }
-      );
-    }
+//     // 1. Validate the selected payment method
+//     const allowedMethods = [
+//       "Cash-on-delivery",
+//       "Online-Payment",
+//     ];
 
-    order.status = "Cancelled";
-    await order.save();
+//     if (!allowedMethods.includes(paymentmethod)) {
+//       return res.status(400).json({
+//         message: "Invalid payment method",
+//       });
+//     }
 
-    return res.status(200).json({
-      message: "Order cancelled successfully",
-      order
-    });
+//     // 2. This endpoint currently handles COD only
+//     if (paymentmethod !== "Cash-on-delivery") {
+//       return res.status(400).json({
+//         message: "Use the online payment endpoint for online orders",
+//       });
+//     }
 
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message
-    });
-  }
-};
+//     // 3. Validate the cart and calculate total
+//     if (!Array.isArray(items) || items.length === 0) {
+//       return res.status(400).json({
+//         message: "Your cart is empty",
+//       });
+//     }
+
+//     for (const item of items) {
+//       const product = await Product.findById(item.productId);
+
+//       if (!product) {
+//         return res.status(404).json({
+//           message: "Product not found",
+//         });
+//       }
+
+//       if (
+//         !Number.isInteger(item.quantity) ||
+//         item.quantity <= 0
+//       ) {
+//         return res.status(400).json({
+//           message: "Invalid product quantity",
+//         });
+//       }
+
+//       if (product.stock < item.quantity) {
+//         return res.status(400).json({
+//           message: `Insufficient stock for ${product.name}`,
+//         });
+//       }
+
+//       orderItems.push({
+//         productId: product._id,
+//         name: product.name,
+//         price: product.price,
+//         quantity: item.quantity,
+//       });
+
+//       total += product.price * item.quantity;
+//     }
+
+//     // 4. Create the COD order
+//     const order = await Order.create({
+//       user: req.user.userId,
+//       items: orderItems,
+//       address,
+//       total,
+//       paymentmethod: "Cash-on-delivery",
+//       paymentstatus: "Pending",
+//     });
+
+//     // 5. Reduce stock for this COD order
+//     for (const item of orderItems) {
+//       await Product.findByIdAndUpdate(
+//         item.productId,
+//         { $inc: { stock: -item.quantity } }
+//       );
+//     }
+
+//     return res.status(201).json({
+//       message: "COD order placed successfully",
+//       order,
+//     });
+//   } catch (error) {
+//     console.error("Create order error:", error);
+
+//     return res.status(500).json({
+//       message: "Failed to create order",
+//     });
+//   }
+// };
+
+
+// exports.cancelorder = async (req, res) => {
+//   try {
+//     const order = await Order.findById(req.params.id);
+
+//     if (!order) {
+//       return res.status(404).json({
+//         message: "Order not found"
+//       });
+//     }
+
+//     if (order.user.toString() !== req.user.userId) {
+//       return res.status(403).json({
+//         message: "You are not authorized to cancel this order"
+//       });
+//     }
+
+//     if (order.status !== "Placed") {
+//       return res.status(400).json({
+//         message: "Order is not in cancellable mode"
+//       });
+//     }
+
+//     for (const orderItem of order.items) {
+//       await Product.findByIdAndUpdate(
+//         orderItem.productId,
+//         {
+//           $inc: {
+//             stock: orderItem.quantity
+//           }
+//         }
+//       );
+//     }
+
+//     order.status = "Cancelled";
+//     await order.save();
+
+//     return res.status(200).json({
+//       message: "Order cancelled successfully",
+//       order
+//     });
+
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: error.message
+//     });
+//   }
+// };
 
 exports.orderstatus=async(req,res)=>{
  

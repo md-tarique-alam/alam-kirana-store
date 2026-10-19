@@ -1,10 +1,11 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { cartcontext } from "../context/cartcontext";
 import { HiShoppingCart } from "react-icons/hi";
 import { IoReturnUpBack } from "react-icons/io5";
 import { FcCancel } from "react-icons/fc";
-import { LuLeafyGreen } from "react-icons/lu";
+import { LuPackage, LuStore, LuTruck } from "react-icons/lu";
 import axios from "axios";
 
 function ProductPage() {
@@ -14,33 +15,38 @@ function ProductPage() {
     useContext(cartcontext);
 
   const [product, setProduct] = useState(null);
-  const [error, SetError] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
-    findproduct();
+    const findProduct = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        setProduct(null);
+        setImageError(false);
+
+        const res = await axios.get(
+          `https://alam-kirana-backend.onrender.com/products/${id}`
+        );
+
+        setProduct(res.data);
+      } catch (error) {
+        setError(
+          error.response?.data?.message || "Unable to load this product."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    findProduct();
   }, [id]);
-
-  const findproduct = async () => {
-    try {
-      setLoading(true);
-      SetError("");
-
-      const res = await axios.get(
-        `https://alam-kirana-backend.onrender.com/products/${id}`
-      );
-
-      setProduct(res.data);
-    } catch (error) {
-      SetError(error.response?.data?.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-slate-100 px-4">
+      <div className="flex min-h-[60vh] items-center justify-center bg-slate-50 px-4">
         <div className="rounded-xl bg-white px-6 py-4 text-sm font-medium text-slate-600 shadow-sm">
           Loading product...
         </div>
@@ -48,15 +54,21 @@ function ProductPage() {
     );
   }
 
-  if (error) {
+  if (error || !product) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-slate-100 px-4">
-        <div className="rounded-xl bg-white px-6 py-5 text-center shadow-sm">
-          <p className="font-medium text-red-600">{error}</p>
+      <div className="flex min-h-[60vh] items-center justify-center bg-slate-50 px-4">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+          <h2 className="text-lg font-bold text-slate-900">
+            Product unavailable
+          </h2>
+
+          <p className="mt-2 text-sm text-red-600">
+            {error || "This product could not be found."}
+          </p>
 
           <Link
             to="/"
-            className="mt-4 inline-block rounded-lg bg-lime-600 px-5 py-2 text-sm font-semibold text-white hover:bg-lime-700"
+            className="mt-5 inline-flex rounded-lg bg-lime-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-lime-800"
           >
             Back to Home
           </Link>
@@ -68,15 +80,22 @@ function ProductPage() {
   const exist = cart.find((item) => item._id === product._id);
 
   return (
-    <div className="min-h-screen bg-slate-100">
-
-      
+    <div className="min-h-screen bg-slate-50">
       <div className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="min-w-0">
-            <p className="truncate text-sm text-slate-500">
-              Home / {product.category}
-            </p>
+            <Link
+              to="/"
+              className="text-sm text-slate-500 transition hover:text-lime-700"
+            >
+              Home
+            </Link>
+
+            <span className="mx-2 text-slate-300">/</span>
+
+            <span className="text-sm text-slate-500">
+              {product.category}
+            </span>
 
             <h2 className="mt-1 truncate text-lg font-semibold text-slate-900 sm:text-xl">
               {product.name}
@@ -85,53 +104,55 @@ function ProductPage() {
 
           <Link
             to="/"
-            className="shrink-0 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-lime-50 hover:text-lime-700"
+            className="shrink-0 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-lime-300 hover:bg-lime-50 hover:text-lime-800"
           >
             ← Home
           </Link>
         </div>
       </div>
 
-     
-      <main className="mx-auto min-h-[70vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
-          <div className="grid grid-cols-1 gap-0 lg:grid-cols-2">
-
-           
-            <div className="flex min-h-[320px] items-center justify-center bg-slate-50 p-6 sm:min-h-[420px] sm:p-10 lg:min-h-[560px]">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-auto max-h-[330px] w-full max-w-[330px] object-contain transition duration-300 hover:scale-105 sm:max-h-[420px] sm:max-w-[420px]"
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="flex min-h-[280px] items-center justify-center bg-white p-6 sm:min-h-[400px] sm:p-10 lg:min-h-[520px]">
+              {!imageError && product.image ? (
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  onError={() => setImageError(true)}
+                  className="h-auto max-h-[320px] w-full max-w-[320px] object-contain transition duration-300 hover:scale-105 sm:max-h-[420px] sm:max-w-[420px]"
+                />
+              ) : (
+                <div className="flex h-64 w-full max-w-xs flex-col items-center justify-center rounded-xl bg-slate-50 text-slate-400">
+                  <LuPackage className="text-5xl" />
+                  <p className="mt-3 text-sm">Image unavailable</p>
+                </div>
+              )}
             </div>
 
-            
             <div className="flex flex-col p-5 sm:p-8 lg:p-10">
-
-              
               <div>
-                <p className="text-sm font-medium text-slate-500">
+                <span className="inline-flex rounded-full bg-lime-50 px-3 py-1 text-xs font-semibold text-lime-800">
                   {product.category}
-                </p>
+                </span>
 
-                <h1 className="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                <h1 className="mt-4 break-words text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl">
                   {product.name}
                 </h1>
 
                 <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
-                  <span>Seller:</span>
-                  <span className="font-semibold text-slate-800">
-                    Alam Store
+                  <LuStore className="shrink-0 text-lg text-lime-700" />
+                  <span>
+                    Sold by{" "}
+                    <span className="font-semibold text-slate-800">
+                      Alam Store
+                    </span>
                   </span>
                 </div>
               </div>
 
-              <div className="my-5 border-t border-slate-200" />
+              <div className="my-6 border-t border-slate-200" />
 
-              
               <div>
                 <p className="text-sm font-medium text-slate-500">
                   Price
@@ -142,14 +163,13 @@ function ProductPage() {
                 </p>
               </div>
 
-              
-              <div className="mt-6">
-                <p className="mb-3 text-sm font-semibold text-slate-800">
-                  Choose Variant
-                </p>
+              {product.unit && (
+                <div className="mt-5">
+                  <p className="mb-3 text-sm font-semibold text-slate-800">
+                    Pack size
+                  </p>
 
-                <div className="w-full rounded-xl border-2 border-lime-600 bg-lime-50 p-4 sm:w-52">
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="inline-flex min-w-36 items-center justify-between gap-6 rounded-xl border-2 border-lime-600 bg-lime-50 p-4">
                     <span className="text-sm font-semibold text-slate-800">
                       {product.unit}
                     </span>
@@ -159,14 +179,26 @@ function ProductPage() {
                     </span>
                   </div>
                 </div>
+              )}
+
+              <div className="mt-7">
+                <h2 className="text-base font-bold text-slate-900 sm:text-lg">
+                  Product Description
+                </h2>
+
+                <p className="mt-2 whitespace-pre-line break-words text-sm leading-7 text-slate-600">
+                  {product.description?.trim() ||
+                    "No product description available yet."}
+                </p>
               </div>
 
-              
-              <div className="mt-6">
+              <div className="mt-7">
                 {exist ? (
-                  <div className="flex h-12 w-full max-w-[180px] items-center justify-between rounded-lg bg-lime-700 px-4 text-white shadow-sm">
+                  <div className="flex h-12 w-full max-w-[220px] items-center justify-between rounded-lg bg-lime-700 px-4 text-white shadow-sm">
                     <button
-                      className="text-xl font-semibold"
+                      type="button"
+                      aria-label="Decrease quantity"
+                      className="rounded px-2 py-1 text-xl font-semibold hover:bg-lime-800"
                       onClick={() => handledecrease(product._id)}
                     >
                       −
@@ -177,7 +209,9 @@ function ProductPage() {
                     </span>
 
                     <button
-                      className="text-xl font-semibold"
+                      type="button"
+                      aria-label="Increase quantity"
+                      className="rounded px-2 py-1 text-xl font-semibold hover:bg-lime-800"
                       onClick={() => handleincrease(product._id)}
                     >
                       +
@@ -185,7 +219,8 @@ function ProductPage() {
                   </div>
                 ) : (
                   <button
-                    className="flex h-12 w-full max-w-[220px] items-center justify-center gap-2 rounded-lg bg-lime-700 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-lime-800 active:scale-[0.98]"
+                    type="button"
+                    className="flex h-12 w-full max-w-[260px] items-center justify-center gap-2 rounded-lg bg-lime-700 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-lime-800 active:scale-[0.98]"
                     onClick={() => handleaddcart(product)}
                   >
                     <HiShoppingCart className="text-lg" />
@@ -194,18 +229,16 @@ function ProductPage() {
                 )}
               </div>
 
-              
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
-
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
-                  <LuLeafyGreen className="shrink-0 text-2xl text-green-600" />
+                  <LuTruck className="shrink-0 text-2xl text-lime-700" />
 
                   <div>
                     <p className="text-sm font-semibold text-slate-800">
-                      Vegetarian
+                      Local grocery store
                     </p>
-                    <p className="text-xs text-slate-500">
-                      Suitable for vegetarian customers
+                    <p className="text-xs leading-5 text-slate-500">
+                      Shop everyday essentials from Alam Store.
                     </p>
                   </div>
                 </div>
@@ -215,29 +248,29 @@ function ProductPage() {
 
                   <div>
                     <p className="text-sm font-semibold text-slate-800">
-                      Cancellation available
+                      Cancellation policy
                     </p>
-                    <p className="text-xs text-slate-500">
-                      Cancellation available before processing
+                    <p className="text-xs leading-5 text-slate-500">
+                      Cancellation is subject to the order status and store
+                      policy.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
+                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4 sm:col-span-2 lg:col-span-1">
                   <IoReturnUpBack className="shrink-0 text-2xl text-slate-700" />
 
                   <div>
                     <p className="text-sm font-semibold text-slate-800">
-                      Non-returnable
+                      Return policy
                     </p>
-                    <p className="text-xs text-slate-500">
-                      This grocery item cannot be returned
+                    <p className="text-xs leading-5 text-slate-500">
+                      Please check with the store for return or replacement
+                      eligibility.
                     </p>
                   </div>
                 </div>
-
               </div>
-
             </div>
           </div>
         </div>

@@ -245,15 +245,15 @@ const Updatepage = () => {
                   className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-lime-600 focus:ring-2 focus:ring-lime-100 cursor-pointer"
                 >
                   <option value="">Select category</option>
-                  <option value="Oil & Ghee">Oil & Ghee</option>
+                  <option value="Oil, Ghee & Dalda">Oil, Ghee & Dalda</option>
                   <option value="Daily Essentials">Daily Essentials</option>
-                  <option value="Wheat & Pulses">Wheat & Pulses</option>
+                  <option value="Wheat, Rice & Pulses">Wheat, Rice & Pulses</option>
                   <option value="Dry Fruits">Dry Fruits</option>
                   <option value="Detergents">Detergents</option>
                   <option value="Sugar & Salt">Sugar & Salt</option>
-                  <option value="Chips & Snacks">Chips & Snacks</option>
-                  <option value="Tea, Coffee & Beverages">
-                    Tea, Coffee & Beverages
+                  <option value="Chips, Noodles & Drinks">hips, Noodles & Drinks</option>
+                  <option value="Tea, Coffee & Snacks">
+                    Tea, Coffee & Snacks
                   </option>
                   <option value="Spices & Masalas">Spices & Masalas</option>
                   <option value="Cleaning Essentials">

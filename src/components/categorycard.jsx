@@ -4,17 +4,17 @@ function CategoryCard({ category }) {
 
   const categoryImages = {
     "Baby Care": "/images/Baby Care.png",
-    "Chips & Snacks": "/images/Chips & Snacks.jpg",
+    "Chips,nNoodles & Drinks": "/images/Chips & Snacks.jpg",
     "Cleaning Essentials": "/images/Cleaning Essentials.jpg",
     "Daily Essentials": "/images/Daily essentials.png",
     "Detergents": "/images/Detergents.png",
     "Dry Fruits": "/images/Dry Fruits.jpg",
-    "Oil & Ghee": "/images/oil-and-ghee.png",
+    "Oil, Ghee & Dalda": "/images/oil-and-ghee.png",
     "Personal Care": "/images/Personal Care.png",
     "Spices & Masalas": "/images/Spices & Masalas.jpg",
     "Sugar & Salt": "/images/Sugar & salt.png",
-    "Tea, Coffee & Beverages": "/images/Tea, Coffee & Beverages.jpg",
-    "Wheat & Pulses": "/images/wheat-and-pulses.png"
+    "Tea, Coffee & Snacks": "/images/Tea, Coffee & Beverages.jpg",
+    "Wheat, Rice & Pulses": "/images/wheat-and-pulses.png"
   };
 
 
