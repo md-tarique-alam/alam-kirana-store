@@ -251,7 +251,7 @@ const Updatepage = () => {
                   <option value="Dry Fruits">Dry Fruits</option>
                   <option value="Detergents">Detergents</option>
                   <option value="Sugar & Salt">Sugar & Salt</option>
-                  <option value="Chips, Noodles & Drinks">hips, Noodles & Drinks</option>
+                  <option value="Chips, Noodles & Drinks">Chips, Noodles & Drinks</option>
                   <option value="Tea, Coffee & Snacks">
                     Tea, Coffee & Snacks
                   </option>

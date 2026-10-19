@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { cartcontext } from "../context/cartcontext";
@@ -28,14 +27,14 @@ function ProductPage() {
         setImageError(false);
 
         const res = await axios.get(
-          `https://alam-kirana-backend.onrender.com/products/${id}`
+          `https://alam-kirana-backend.onrender.com/products/${id}`,
         );
 
         setProduct(res.data);
       } catch (error) {
         setError(
           error.response?.data?.message ||
-            "Unable to load this product. Please try again."
+            "Unable to load this product. Please try again.",
         );
       } finally {
         setLoading(false);
@@ -85,18 +84,13 @@ function ProductPage() {
       <div className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="min-w-0">
-            <Link
-              to="/"
-              className="text-sm text-slate-500 hover:text-lime-700"
-            >
+            <Link to="/" className="text-sm text-slate-500 hover:text-lime-700">
               Home
             </Link>
 
             <span className="mx-2 text-slate-300">/</span>
 
-            <span className="text-sm text-slate-500">
-              {product.category}
-            </span>
+            <span className="text-sm text-slate-500">{product.category}</span>
 
             <h2 className="mt-1 truncate text-lg font-semibold text-slate-900 sm:text-xl">
               {product.name}
@@ -112,8 +106,8 @@ function ProductPage() {
         </div>
       </div>
 
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-12">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-6 lg:py-8">
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-5">
           <div className="lg:sticky lg:top-6">
             <div className="flex min-h-[320px] items-center justify-center sm:min-h-[440px] lg:min-h-[560px]">
               {product.image && !imageError ? (
@@ -121,7 +115,7 @@ function ProductPage() {
                   src={product.image}
                   alt={product.name}
                   onError={() => setImageError(true)}
-                  className="max-h-[320px] w-full max-w-[320px] object-contain sm:max-h-[440px] sm:max-w-[440px] lg:max-h-[540px] lg:max-w-[520px]"
+                  className="h-auto max-h-[330px] w-full max-w-[330px] object-contain transition duration-300 hover:scale-105 sm:max-h-[420px] sm:max-w-[420px] lg:max-h-[540px] lg:max-w-[520px]"
                 />
               ) : (
                 <div className="flex h-72 w-full flex-col items-center justify-center text-slate-400">
@@ -145,9 +139,7 @@ function ProductPage() {
               <LuStore className="shrink-0 text-lg text-lime-700" />
               <span>
                 Sold by{" "}
-                <span className="font-semibold text-slate-800">
-                  Alam Store
-                </span>
+                <span className="font-semibold text-slate-800">Alam Store</span>
               </span>
             </div>
 
@@ -170,7 +162,6 @@ function ProductPage() {
                   <span className="text-sm font-semibold text-slate-800">
                     {product.unit}
                   </span>
-
                   <span className="text-sm font-bold text-slate-900">
                     ₹{product.price}
                   </span>
@@ -190,9 +181,7 @@ function ProductPage() {
                     −
                   </button>
 
-                  <span className="text-sm font-bold">
-                    {exist.quantity}
-                  </span>
+                  <span className="text-sm font-bold">{exist.quantity}</span>
 
                   <button
                     type="button"
@@ -262,7 +251,8 @@ function ProductPage() {
                     Return policy
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-500">
-                    Contact the store to confirm return or replacement eligibility.
+                    Contact the store to confirm return or replacement
+                    eligibility.
                   </p>
                 </div>
               </div>
