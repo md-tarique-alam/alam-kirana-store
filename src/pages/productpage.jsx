@@ -5,7 +5,7 @@ import { cartcontext } from "../context/cartcontext";
 import { HiShoppingCart } from "react-icons/hi";
 import { IoReturnUpBack } from "react-icons/io5";
 import { FcCancel } from "react-icons/fc";
-import { LuPackage, LuStore, LuTruck } from "react-icons/lu";
+import { LuPackage, LuStore } from "react-icons/lu";
 import axios from "axios";
 
 function ProductPage() {
@@ -34,7 +34,8 @@ function ProductPage() {
         setProduct(res.data);
       } catch (error) {
         setError(
-          error.response?.data?.message || "Unable to load this product."
+          error.response?.data?.message ||
+            "Unable to load this product. Please try again."
         );
       } finally {
         setLoading(false);
@@ -68,7 +69,7 @@ function ProductPage() {
 
           <Link
             to="/"
-            className="mt-5 inline-flex rounded-lg bg-lime-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-lime-800"
+            className="mt-5 inline-flex rounded-lg bg-lime-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-lime-800"
           >
             Back to Home
           </Link>
@@ -86,7 +87,7 @@ function ProductPage() {
           <div className="min-w-0">
             <Link
               to="/"
-              className="text-sm text-slate-500 transition hover:text-lime-700"
+              className="text-sm text-slate-500 hover:text-lime-700"
             >
               Home
             </Link>
@@ -112,166 +113,160 @@ function ProductPage() {
       </div>
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="flex min-h-[280px] items-center justify-center bg-white p-6 sm:min-h-[400px] sm:p-10 lg:min-h-[520px]">
-              {!imageError && product.image ? (
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="lg:sticky lg:top-6">
+            <div className="flex min-h-[320px] items-center justify-center sm:min-h-[440px] lg:min-h-[560px]">
+              {product.image && !imageError ? (
                 <img
                   src={product.image}
                   alt={product.name}
                   onError={() => setImageError(true)}
-                  className="h-auto max-h-[320px] w-full max-w-[320px] object-contain transition duration-300 hover:scale-105 sm:max-h-[420px] sm:max-w-[420px]"
+                  className="max-h-[320px] w-full max-w-[320px] object-contain sm:max-h-[440px] sm:max-w-[440px] lg:max-h-[540px] lg:max-w-[520px]"
                 />
               ) : (
-                <div className="flex h-64 w-full max-w-xs flex-col items-center justify-center rounded-xl bg-slate-50 text-slate-400">
-                  <LuPackage className="text-5xl" />
+                <div className="flex h-72 w-full flex-col items-center justify-center text-slate-400">
+                  <LuPackage className="text-6xl" />
                   <p className="mt-3 text-sm">Image unavailable</p>
                 </div>
               )}
             </div>
+          </div>
 
-            <div className="flex flex-col p-5 sm:p-8 lg:p-10">
-              <div>
-                <span className="inline-flex rounded-full bg-lime-50 px-3 py-1 text-xs font-semibold text-lime-800">
-                  {product.category}
+          <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8 lg:p-9">
+            <span className="inline-flex rounded-full bg-lime-50 px-3 py-1 text-xs font-semibold text-lime-800">
+              {product.category}
+            </span>
+
+            <h1 className="mt-4 break-words text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl">
+              {product.name}
+            </h1>
+
+            <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
+              <LuStore className="shrink-0 text-lg text-lime-700" />
+              <span>
+                Sold by{" "}
+                <span className="font-semibold text-slate-800">
+                  Alam Store
                 </span>
+              </span>
+            </div>
 
-                <h1 className="mt-4 break-words text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl">
-                  {product.name}
-                </h1>
+            <div className="my-6 border-t border-slate-200" />
 
-                <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
-                  <LuStore className="shrink-0 text-lg text-lime-700" />
-                  <span>
-                    Sold by{" "}
-                    <span className="font-semibold text-slate-800">
-                      Alam Store
-                    </span>
+            <div>
+              <p className="text-sm font-medium text-slate-500">Price</p>
+              <p className="mt-1 text-3xl font-bold text-slate-900 sm:text-4xl">
+                ₹{product.price}
+              </p>
+            </div>
+
+            {product.unit && (
+              <div className="mt-6">
+                <p className="mb-3 text-sm font-semibold text-slate-800">
+                  Pack size
+                </p>
+
+                <div className="inline-flex min-w-40 items-center justify-between gap-8 rounded-xl border-2 border-lime-600 bg-lime-50 p-4">
+                  <span className="text-sm font-semibold text-slate-800">
+                    {product.unit}
+                  </span>
+
+                  <span className="text-sm font-bold text-slate-900">
+                    ₹{product.price}
                   </span>
                 </div>
               </div>
+            )}
 
-              <div className="my-6 border-t border-slate-200" />
-
-              <div>
-                <p className="text-sm font-medium text-slate-500">
-                  Price
-                </p>
-
-                <p className="mt-1 text-3xl font-bold text-slate-900 sm:text-4xl">
-                  ₹{product.price}
-                </p>
-              </div>
-
-              {product.unit && (
-                <div className="mt-5">
-                  <p className="mb-3 text-sm font-semibold text-slate-800">
-                    Pack size
-                  </p>
-
-                  <div className="inline-flex min-w-36 items-center justify-between gap-6 rounded-xl border-2 border-lime-600 bg-lime-50 p-4">
-                    <span className="text-sm font-semibold text-slate-800">
-                      {product.unit}
-                    </span>
-
-                    <span className="text-sm font-bold text-slate-900">
-                      ₹{product.price}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="mt-7">
-                <h2 className="text-base font-bold text-slate-900 sm:text-lg">
-                  Product Description
-                </h2>
-
-                <p className="mt-2 whitespace-pre-line break-words text-sm leading-7 text-slate-600">
-                  {product.description?.trim() ||
-                    "No product description available yet."}
-                </p>
-              </div>
-
-              <div className="mt-7">
-                {exist ? (
-                  <div className="flex h-12 w-full max-w-[220px] items-center justify-between rounded-lg bg-lime-700 px-4 text-white shadow-sm">
-                    <button
-                      type="button"
-                      aria-label="Decrease quantity"
-                      className="rounded px-2 py-1 text-xl font-semibold hover:bg-lime-800"
-                      onClick={() => handledecrease(product._id)}
-                    >
-                      −
-                    </button>
-
-                    <span className="text-sm font-bold">
-                      {exist.quantity}
-                    </span>
-
-                    <button
-                      type="button"
-                      aria-label="Increase quantity"
-                      className="rounded px-2 py-1 text-xl font-semibold hover:bg-lime-800"
-                      onClick={() => handleincrease(product._id)}
-                    >
-                      +
-                    </button>
-                  </div>
-                ) : (
+            <div className="mt-7">
+              {exist ? (
+                <div className="flex h-12 w-full max-w-[220px] items-center justify-between rounded-lg bg-lime-700 px-4 text-white shadow-sm">
                   <button
                     type="button"
-                    className="flex h-12 w-full max-w-[260px] items-center justify-center gap-2 rounded-lg bg-lime-700 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-lime-800 active:scale-[0.98]"
-                    onClick={() => handleaddcart(product)}
+                    aria-label="Decrease quantity"
+                    className="rounded px-2 py-1 text-xl font-semibold hover:bg-lime-800"
+                    onClick={() => handledecrease(product._id)}
                   >
-                    <HiShoppingCart className="text-lg" />
-                    Add to cart
+                    −
                   </button>
-                )}
-              </div>
 
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
-                  <LuTruck className="shrink-0 text-2xl text-lime-700" />
+                  <span className="text-sm font-bold">
+                    {exist.quantity}
+                  </span>
 
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Local grocery store
-                    </p>
-                    <p className="text-xs leading-5 text-slate-500">
-                      Shop everyday essentials from Alam Store.
-                    </p>
-                  </div>
+                  <button
+                    type="button"
+                    aria-label="Increase quantity"
+                    className="rounded px-2 py-1 text-xl font-semibold hover:bg-lime-800"
+                    onClick={() => handleincrease(product._id)}
+                  >
+                    +
+                  </button>
                 </div>
-
-                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
-                  <FcCancel className="shrink-0 text-2xl" />
-
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Cancellation policy
-                    </p>
-                    <p className="text-xs leading-5 text-slate-500">
-                      Cancellation is subject to the order status and store
-                      policy.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4 sm:col-span-2 lg:col-span-1">
-                  <IoReturnUpBack className="shrink-0 text-2xl text-slate-700" />
-
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Return policy
-                    </p>
-                    <p className="text-xs leading-5 text-slate-500">
-                      Please check with the store for return or replacement
-                      eligibility.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ) : (
+                <button
+                  type="button"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-lime-700 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-lime-800 active:scale-[0.99]"
+                  onClick={() => handleaddcart(product)}
+                >
+                  <HiShoppingCart className="text-lg" />
+                  Add to Cart
+                </button>
+              )}
             </div>
+
+            <section className="mt-9 border-t border-slate-200 pt-6">
+              <h2 className="text-lg font-bold text-slate-900">
+                Product Description
+              </h2>
+
+              <p className="mt-3 whitespace-pre-line break-words text-sm leading-7 text-slate-600">
+                {product.description?.trim() ||
+                  "No description is available for this product yet."}
+              </p>
+            </section>
+
+            <section className="mt-8 border-t border-slate-200 pt-6">
+              <h2 className="text-lg font-bold text-slate-900">
+                Store Information
+              </h2>
+
+              <div className="mt-4 flex items-start gap-3 rounded-xl bg-slate-50 p-4">
+                <LuPackage className="mt-0.5 shrink-0 text-xl text-lime-700" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">
+                    Everyday essentials
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">
+                    Shop grocery products from your local Alam Store.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-start gap-3 rounded-xl bg-slate-50 p-4">
+                <FcCancel className="mt-0.5 shrink-0 text-xl" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">
+                    Cancellation policy
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">
+                    Cancellation depends on the order status and store policy.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-start gap-3 rounded-xl bg-slate-50 p-4">
+                <IoReturnUpBack className="mt-0.5 shrink-0 text-xl text-slate-700" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">
+                    Return policy
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">
+                    Contact the store to confirm return or replacement eligibility.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </main>
