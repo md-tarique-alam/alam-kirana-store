@@ -9,7 +9,7 @@ function CategoryCard({ category }) {
     "Daily Essentials": "/images/Daily essentials.png",
     "Detergents": "/images/Detergents.png",
     "Dry Fruits": "/images/Dry Fruits.jpg",
-    "Oil, Ghee & Dalda": "/images/oil, Ghee & Dalda.png",
+    "Oil, Ghee & Dalda": "/images/Oil, Ghee & Dalda.png",
     "Personal Care": "/images/Personal Care.png",
     "Spices & Masalas": "/images/Spices & Masalas.jpg",
     "Sugar & Salt": "/images/Sugar & salt.png",
