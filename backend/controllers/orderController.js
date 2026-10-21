@@ -181,53 +181,53 @@ exports.createorders = async (req, res) => {
 // };
 
 
-// exports.cancelorder = async (req, res) => {
-//   try {
-//     const order = await Order.findById(req.params.id);
+exports.cancelorder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
 
-//     if (!order) {
-//       return res.status(404).json({
-//         message: "Order not found"
-//       });
-//     }
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found"
+      });
+    }
 
-//     if (order.user.toString() !== req.user.userId) {
-//       return res.status(403).json({
-//         message: "You are not authorized to cancel this order"
-//       });
-//     }
+    if (order.user.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "You are not authorized to cancel this order"
+      });
+    }
 
-//     if (order.status !== "Placed") {
-//       return res.status(400).json({
-//         message: "Order is not in cancellable mode"
-//       });
-//     }
+    if (order.status !== "Placed") {
+      return res.status(400).json({
+        message: "Order is not in cancellable mode"
+      });
+    }
 
-//     for (const orderItem of order.items) {
-//       await Product.findByIdAndUpdate(
-//         orderItem.productId,
-//         {
-//           $inc: {
-//             stock: orderItem.quantity
-//           }
-//         }
-//       );
-//     }
+    for (const orderItem of order.items) {
+      await Product.findByIdAndUpdate(
+        orderItem.productId,
+        {
+          $inc: {
+            stock: orderItem.quantity
+          }
+        }
+      );
+    }
 
-//     order.status = "Cancelled";
-//     await order.save();
+    order.status = "Cancelled";
+    await order.save();
 
-//     return res.status(200).json({
-//       message: "Order cancelled successfully",
-//       order
-//     });
+    return res.status(200).json({
+      message: "Order cancelled successfully",
+      order
+    });
 
-//   } catch (error) {
-//     return res.status(500).json({
-//       message: error.message
-//     });
-//   }
-// };
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+};
 
 exports.orderstatus=async(req,res)=>{
  
