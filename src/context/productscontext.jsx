@@ -24,7 +24,9 @@ function ProductsProvider({ children }) {
   }
 
   if (loading) {
-    return <h2>loading...</h2>;
+    <div className="w-10 h-10 border-4 border-lime-200 border-t-lime-700 rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium">Loading products...</p>
+      </div>
   }
 
   if (error) {
