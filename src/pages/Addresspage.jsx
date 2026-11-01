@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../api/api";
 import { useEffect, useState } from "react";
 
 function Address() {
@@ -27,7 +27,7 @@ function Address() {
       setLoading(true);
       setError("");
 
-      const res = await axios.get("https://alam-kirana-backend.onrender.com/address", {
+      const res = await API.get("/address", {
         withCredentials: true,
       });
 
@@ -82,8 +82,8 @@ function Address() {
       setError("");
 
       if (editingFormId) {
-        const res = await axios.patch(
-          `https://alam-kirana-backend.onrender.com/address/${editingFormId}/update`,
+        const res = await API.patch(
+          `/address/${editingFormId}/update`,
           formData,
           {
             withCredentials: true,
@@ -98,9 +98,7 @@ function Address() {
           ),
         );
       } else {
-        const res = await axios.post(
-          "https://alam-kirana-backend.onrender.com/address/add",
-          formData,
+        const res = await API.post( "/address/add", formData,
           {
             withCredentials: true,
           },
@@ -133,7 +131,7 @@ function Address() {
     try {
       setError("");
 
-      await axios.delete(`https://alam-kirana-backend.onrender.com/address/${id}/delete`, {
+      await API.delete(`/address/${id}/delete`, {
         withCredentials: true,
       });
 
@@ -155,8 +153,15 @@ function Address() {
     setError("");
   }
 
-  if (loading) {
-    return <h2>Loading...</h2>;
+   if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-lime-200 border-t-lime-700 rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium">Loading products...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

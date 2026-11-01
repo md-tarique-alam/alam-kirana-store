@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../api/api";
 import { useEffect, useState } from "react";
 
 function UpdateProfile() {
@@ -23,7 +23,7 @@ function UpdateProfile() {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get("https://alam-kirana-backend.onrender.com/users/profile", {
+      const res = await API.get("/users/profile", {
         withCredentials: true,
       });
       const user = res.data.user;
@@ -38,11 +38,9 @@ function UpdateProfile() {
 
   async function handleUpdate() {
     try {
-      const res = await axios.patch(
-        "https://alam-kirana-backend.onrender.com/users/update",
-        formData,
-        { withCredentials: true },
-      );
+      const res = await API.patch("/users/update", formData, {
+        withCredentials: true,
+      });
       const updatedUser = res.data.user;
       setFormData(updatedUser);
       setOriginalData(updatedUser);
@@ -61,7 +59,14 @@ function UpdateProfile() {
   }
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-lime-200 border-t-lime-700 rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

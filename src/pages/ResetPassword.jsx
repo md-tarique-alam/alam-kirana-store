@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import API from "../api/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword = () => {
@@ -35,8 +35,7 @@ async function handleSubmit(e) {
     setLoading(true);
 
   try {
-      const res = await axios.post(
-        `https://alam-kirana-backend.onrender.com/users/reset-password/${token}`,
+      const res = await API.post( `/users/reset-password/${token}`,
         {
           password,
         },

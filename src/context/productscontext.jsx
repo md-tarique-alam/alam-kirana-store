@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../api/api";
 import { useEffect, useState, createContext } from "react";
 
 export const productscontext = createContext();
@@ -14,7 +14,7 @@ function ProductsProvider({ children }) {
 
   async function getData() {
     try {
-      const res = await axios.get("https://alam-kirana-backend.onrender.com/products");
+      const res = await API.get("/products");
       setProducts(res.data);
     } catch(error){
       setError(error.response?.data?.message || "something went wrong");

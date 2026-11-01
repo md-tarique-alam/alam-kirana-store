@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../api/api";
 import { useEffect, useState } from "react";
 
 function Orders() {
@@ -14,7 +14,7 @@ function Orders() {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get("https://alam-kirana-backend.onrender.com/orders/my-orders", {
+      const res = await API.get("/orders/my-orders", {
         withCredentials: true,
       });
       setOrders(res.data);
@@ -25,8 +25,15 @@ function Orders() {
     }
   }
 
-  if (loading) {
-    return <h1>...loading</h1>;
+   if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-lime-200 border-t-lime-700 rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium">Loading orders...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -42,9 +49,7 @@ function Orders() {
       return;
     }
     try {
-      const res = await axios.patch(
-        `https://alam-kirana-backend.onrender.com/orders/${id}/cancel`,
-        {},
+      const res = await API.patch( `/orders/${id}/cancel`, {},
         { withCredentials: true },
       );
       const updatedOrder = res.data.order;

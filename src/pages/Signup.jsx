@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api/api";
 
 const Signup = () => {
   const [signup, setSignup] = useState({
@@ -34,10 +34,7 @@ const Signup = () => {
       setError("");
       setSuccess("");
 
-      await axios.post(
-        "https://alam-kirana-backend.onrender.com/users/signup",
-        userData
-      );
+      await API.post("/users/signup", userData);
 
       setSuccess("Congratulations! You've successfully registered.");
 

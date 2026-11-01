@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import API from "../api/api";
 import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
@@ -16,8 +16,8 @@ const ForgotPassword = () => {
     setSuccess("");
 
     try {
-      const res = await axios.post(
-        "https://alam-kirana-backend.onrender.com/users/forgot-password",
+      const res = await API.post(
+        "/users/forgot-password",
         { email },
         { withCredentials: true }
       );
